@@ -1,0 +1,25 @@
+{
+  "background_color": "#ffffff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Feelo",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "Feelo",
+  "start_url": "/",
+  "theme_color": "#fafafa",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2ZiNzE4NSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzdjM2FlZCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgo8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExNiIgZmlsbD0idXJsKCNnKSIvPgo8ZyBmaWxsPSIjZmZmIj4KPHJlY3QgeD0iMTAwIiB5PSIxMzAiIHdpZHRoPSI0OCIgaGVpZ2h0PSIyNTIiIHJ4PSIyNCIvPgo8cmVjdCB4PSIxMDAiIHk9IjEzMCIgd2lkdGg9IjEyNCIgaGVpZ2h0PSI0OCIgcng9IjI0Ii8+CjxyZWN0IHg9IjEwMCIgeT0iMjI2IiB3aWR0aD0iOTIiIGhlaWdodD0iNDQiIHJ4PSIyMiIvPgo8cmVjdCB4PSIyODgiIHk9IjEzMCIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjI1MiIgcng9IjI0Ii8+CjxyZWN0IHg9IjI4OCIgeT0iMzM0IiB3aWR0aD0iMTI4IiBoZWlnaHQ9IjQ4IiByeD0iMjQiLz4KPHBhdGggZD0iTTM3MiAyOTJDMzMyIDI2NCAzMzggMjI2IDM2MCAyMjZDMzY4IDIyNiAzNzIgMjMyIDM3MiAyMzZDMzcyIDIzMiAzNzYgMjI2IDM4NCAyMjZDNDA2IDIyNiA0MTIgMjY0IDM3MiAyOTJaIiBmaWxsLW9wYWNpdHk9Ii45MiIvPgo8L2c+PC9zdmc+Cg==",
+      "isSquare": false,
+      "isPng": false,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 0,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    }
+  ],
+  "id": "com.feelo.com"
+}
