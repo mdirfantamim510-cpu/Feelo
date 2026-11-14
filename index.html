@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fafafa">
+<title>Feelo</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2ZiNzE4NSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzdjM2FlZCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgo8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExNiIgZmlsbD0idXJsKCNnKSIvPgo8ZyBmaWxsPSIjZmZmIj4KPHJlY3QgeD0iMTAwIiB5PSIxMzAiIHdpZHRoPSI0OCIgaGVpZ2h0PSIyNTIiIHJ4PSIyNCIvPgo8cmVjdCB4PSIxMDAiIHk9IjEzMCIgd2lkdGg9IjEyNCIgaGVpZ2h0PSI0OCIgcng9IjI0Ii8+CjxyZWN0IHg9IjEwMCIgeT0iMjI2IiB3aWR0aD0iOTIiIGhlaWdodD0iNDQiIHJ4PSIyMiIvPgo8cmVjdCB4PSIyODgiIHk9IjEzMCIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjI1MiIgcng9IjI0Ii8+CjxyZWN0IHg9IjI4OCIgeT0iMzM0IiB3aWR0aD0iMTI4IiBoZWlnaHQ9IjQ4IiByeD0iMjQiLz4KPHBhdGggZD0iTTM3MiAyOTJDMzMyIDI2NCAzMzggMjI2IDM2MCAyMjZDMzY4IDIyNiAzNzIgMjMyIDM3MiAyMzZDMzcyIDIzMiAzNzYgMjI2IDM4NCAyMjZDNDA2IDIyNiA0MTIgMjY0IDM3MiAyOTJaIiBmaWxsLW9wYWNpdHk9Ii45MiIvPgo8L2c+PC9zdmc+Cg==">
+<script>try{new Function('return 1?.a')}catch(e){document.addEventListener('DOMContentLoaded',function(){document.body.innerHTML='<p style="padding:24px;font-family:sans-serif">Your WebView/browser is too old for this app. Please update <b>Android System WebView</b> and <b>Chrome</b> from the Play Store.</p>'})}</script>
+<script nomodule>document.addEventListener('DOMContentLoaded',function(){document.body.innerHTML='<p style="padding:24px;font-family:sans-serif">Your browser is too old. Please update Chrome / Android System WebView from the Play Store.</p>'})</script>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fafafa;--sf:#fff;--sub:#f4f4f5;--tx:#18181b;--mu:#71717a;--ln:#e4e4e7;--pr:#18181b;--ac:#e11d48;--gr:#22c55e}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"Hind Siliguri",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+button,input,textarea{font:inherit}button{cursor:pointer;border:0;background:none;color:inherit}
+.hidden{display:none!important}
+#login{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center}
+.logo{width:72px;height:72px;border-radius:20px;background:var(--pr);color:#fff;font-size:34px;font-weight:700;display:grid;place-items:center}
+#login h1{margin:6px 0 0;font-size:28px}#login p{margin:0;color:var(--mu);font-size:14px}
+.shell{max-width:680px;margin:0 auto;min-height:100dvh;padding-bottom:calc(80px + env(safe-area-inset-bottom))}
+.top{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:calc(12px + env(safe-area-inset-top)) 18px 12px;background:rgba(250,250,250,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--ln)}
+.top b{font-size:19px}.pill{font-size:11px;padding:4px 10px;border-radius:99px;background:#d1fae5;color:#065f46}.pill.off{background:#fef3c7;color:#92400e}
+main{padding:0 16px}.page{display:none}.page.active{display:block}
+.hello{padding:18px 4px 10px}.hello h2{margin:0;font-size:22px}.hello p{margin:3px 0 0;color:var(--mu);font-size:13px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:20px;padding:8px 16px;font-size:13px;font-weight:500}
+.b1{background:var(--pr);color:#fff}.b2{border:1px solid var(--ln);color:var(--mu)}.b3{font-size:11px;padding:4px 10px;border:1px solid var(--ln);color:var(--mu);border-radius:8px}.b3.on{background:var(--sub);color:var(--tx)}
+.b1:disabled{opacity:.5}
+input[type=text],input[type=password],textarea{width:100%;border:1px solid var(--ln);border-radius:10px;padding:11px 13px;background:var(--sf);color:var(--tx);outline:0}
+input:focus,textarea:focus{border-color:var(--pr)}
+.composer{padding:12px 4px 16px;border-bottom:1px solid var(--ln)}
+.composer textarea{border:0;background:none;padding:8px 0;min-height:72px;font-size:16px;line-height:1.6;resize:vertical}
+.row{display:flex;align-items:center;gap:10px}.between{justify-content:space-between}
+.avatar{width:40px;height:40px;flex:none;border-radius:50%;background:var(--pr);color:#fff;display:grid;place-items:center;overflow:hidden;font-weight:600;position:relative}
+.avatar img{width:100%;height:100%;object-fit:cover}.avatar.sm{width:16px;height:16px;font-size:9px}
+.wrap{position:relative;flex:none}.dot{position:absolute;right:0;bottom:0;width:11px;height:11px;border-radius:50%;background:var(--gr);border:2px solid #fff}
+.prev{display:none;position:relative;margin-top:8px}.prev img{max-width:100%;max-height:220px;border-radius:10px}
+.prev button{position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.7);color:#fff}
+.post{padding:14px 4px;border-bottom:1px solid var(--ln)}.lk{cursor:pointer}
+.meta{flex:1;min-width:0}.meta strong{display:block;font-size:14px}.meta span{font-size:11px;color:var(--mu);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ptext{margin:10px 0 6px;font-size:14px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.pimg{width:100%;max-height:380px;object-fit:cover;border-radius:10px;border:1px solid var(--ln);margin:6px 0}
+.stats{display:flex;justify-content:space-between;font-size:11px;color:var(--mu);padding-top:6px}
+.acts{display:flex;gap:4px;padding-top:4px}
+.act{flex:1;padding:8px 2px;border-radius:8px;color:var(--mu);font-size:12px;font-weight:500}.act.on{color:var(--ac);background:#fff1f2}
+.cm{margin-top:10px;padding-top:10px;border-top:1px solid var(--ln)}
+.bub{background:var(--sub);border-radius:12px;padding:7px 12px;font-size:12px;line-height:1.5;margin-bottom:6px}.bub b{display:block;font-size:11px}
+.cform{display:flex;gap:8px;margin-top:8px}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:12px;cursor:pointer}
+.card .meta strong{font-size:15px}.cap{display:block;cursor:default}.cap p{margin:0;font-size:15px;line-height:1.7}.cap .row{justify-content:flex-end;margin-top:10px}
+.badge{min-width:18px;height:18px;border-radius:9px;background:var(--ac);color:#fff;font-size:11px;display:grid;place-items:center;padding:0 5px}
+nav .badge{position:absolute;top:2px;right:calc(50% - 22px)}
+#room{display:none;flex-direction:column;height:calc(100dvh - 150px - env(safe-area-inset-bottom))}#room.on{display:flex}
+#msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding:8px 2px}
+.m{max-width:75%;padding:9px 13px;border-radius:14px;font-size:14px;line-height:1.5;word-break:break-word}
+.m.in{background:var(--sub);align-self:flex-start;border-bottom-left-radius:4px}.m.out{background:var(--pr);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.st{align-self:flex-end;font-size:11px;color:var(--mu);display:flex;align-items:center;gap:4px;margin-top:-2px}
+.cbar{display:flex;gap:8px;padding-top:8px;border-top:1px solid var(--ln)}
+.phero{text-align:center;padding:16px 0 8px}.phero .avatar{width:88px;height:88px;font-size:32px;margin:0 auto 10px}
+.phero h2{margin:0;font-size:19px}.phero p{margin:3px 0;color:var(--mu);font-size:13px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}.grid3 button{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:10px 4px}.grid3 b{display:block;font-size:17px}.grid3 span{font-size:11px;color:var(--mu)}
+.field{margin-bottom:12px}.field label{display:block;font-size:12px;color:var(--mu);margin-bottom:5px}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,680px);z-index:30;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;padding:6px 10px calc(6px + env(safe-area-inset-bottom));background:rgba(250,250,250,.95);backdrop-filter:blur(14px);border-top:1px solid var(--ln)}
+nav button{position:relative;padding:7px 0;border-radius:10px;font-size:11px;color:var(--mu);display:flex;flex-direction:column;align-items:center;gap:2px}nav button span.i{font-size:19px}nav button.active{color:var(--tx);background:var(--sub)}
+#toast{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom));transform:translate(-50%,12px);opacity:0;pointer-events:none;background:var(--tx);color:#fff;padding:9px 16px;border-radius:99px;font-size:12px;transition:.2s;z-index:60;max-width:90%;text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+.empty{padding:36px 16px;text-align:center;color:var(--mu);font-size:13px}
+</style>
+</head>
+<body>
+
+<section id="login" class="hidden">
+  <img class="logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2ZiNzE4NSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzdjM2FlZCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgo8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExNiIgZmlsbD0idXJsKCNnKSIvPgo8ZyBmaWxsPSIjZmZmIj4KPHJlY3QgeD0iMTAwIiB5PSIxMzAiIHdpZHRoPSI0OCIgaGVpZ2h0PSIyNTIiIHJ4PSIyNCIvPgo8cmVjdCB4PSIxMDAiIHk9IjEzMCIgd2lkdGg9IjEyNCIgaGVpZ2h0PSI0OCIgcng9IjI0Ii8+CjxyZWN0IHg9IjEwMCIgeT0iMjI2IiB3aWR0aD0iOTIiIGhlaWdodD0iNDQiIHJ4PSIyMiIvPgo8cmVjdCB4PSIyODgiIHk9IjEzMCIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjI1MiIgcng9IjI0Ii8+CjxyZWN0IHg9IjI4OCIgeT0iMzM0IiB3aWR0aD0iMTI4IiBoZWlnaHQ9IjQ4IiByeD0iMjQiLz4KPHBhdGggZD0iTTM3MiAyOTJDMzMyIDI2NCAzMzggMjI2IDM2MCAyMjZDMzY4IDIyNiAzNzIgMjMyIDM3MiAyMzZDMzcyIDIzMiAzNzYgMjI2IDM4NCAyMjZDNDA2IDIyNiA0MTIgMjY0IDM3MiAyOTJaIiBmaWxsLW9wYWNpdHk9Ii45MiIvPgo8L2c+PC9zdmc+Cg==" alt="Feelo" style="background:none">
+  <h1>Feelo</h1>
+  <p>Share what you feel with friends</p>
+  <div style="width:100%;max-width:320px;display:grid;gap:10px">
+    <input type="text" id="em" placeholder="Email" autocomplete="email" inputmode="email" autocapitalize="off">
+    <input type="password" id="pw" placeholder="Password (min 6 characters)" autocomplete="current-password">
+    <button class="btn b1" id="btn-in" style="padding:12px;font-size:15px">Sign in</button>
+    <button class="btn b2" id="btn-up" style="padding:12px;font-size:15px">Create account</button>
+    <button class="b3" id="btn-fp" style="border:0">Forgot password?</button>
+    <button class="btn b2" id="google-btn" style="padding:12px;font-size:15px">Continue with Google</button>
+    <p id="g-note" class="hidden" style="font-size:11px">Google login works in Chrome. Inside an app, use email and password.</p>
+  </div>
+  <p id="login-err" style="color:var(--ac);font-size:12px;min-height:16px"></p>
+</section>
+
+<div class="shell hidden" id="app">
+  <header class="top"><div class="row"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2ZiNzE4NSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzdjM2FlZCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgo8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExNiIgZmlsbD0idXJsKCNnKSIvPgo8ZyBmaWxsPSIjZmZmIj4KPHJlY3QgeD0iMTAwIiB5PSIxMzAiIHdpZHRoPSI0OCIgaGVpZ2h0PSIyNTIiIHJ4PSIyNCIvPgo8cmVjdCB4PSIxMDAiIHk9IjEzMCIgd2lkdGg9IjEyNCIgaGVpZ2h0PSI0OCIgcng9IjI0Ii8+CjxyZWN0IHg9IjEwMCIgeT0iMjI2IiB3aWR0aD0iOTIiIGhlaWdodD0iNDQiIHJ4PSIyMiIvPgo8cmVjdCB4PSIyODgiIHk9IjEzMCIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjI1MiIgcng9IjI0Ii8+CjxyZWN0IHg9IjI4OCIgeT0iMzM0IiB3aWR0aD0iMTI4IiBoZWlnaHQ9IjQ4IiByeD0iMjQiLz4KPHBhdGggZD0iTTM3MiAyOTJDMzMyIDI2NCAzMzggMjI2IDM2MCAyMjZDMzY4IDIyNiAzNzIgMjMyIDM3MiAyMzZDMzcyIDIzMiAzNzYgMjI2IDM4NCAyMjZDNDA2IDIyNiA0MTIgMjY0IDM3MiAyOTJaIiBmaWxsLW9wYWNpdHk9Ii45MiIvPgo8L2c+PC9zdmc+Cg==" width="28" height="28" alt="" style="border-radius:8px"><b>Feelo</b></div><div class="row"><span class="pill" id="net">Online</span><button class="b3" id="open-search" style="font-size:15px">🔍</button></div></header>
+  <main>
+    <section class="page active" id="page-home">
+      <div class="hello"><h2 id="greet"></h2><p>What's on your mind today?</p></div>
+      <form class="composer" id="post-form">
+        <div class="row"><div id="c-av"></div><div class="meta"><strong id="c-name"></strong><span>Write in Bangla or English</span></div></div>
+        <textarea id="post-text" maxlength="1500" placeholder="Share your feelings..."></textarea>
+        <div class="prev" id="prev"><img id="prev-img" alt=""><button type="button" id="rm-img">✕</button></div>
+        <div class="row between" style="margin-top:6px">
+          <button type="button" class="btn b2" id="pick-img">🖼️ Photo</button>
+          <input class="hidden" id="img-in" type="file" accept="image/*">
+          <button class="btn b1" type="submit">Post</button>
+        </div>
+      </form>
+      <div id="feed"></div>
+    </section>
+
+    <section class="page" id="page-cap">
+      <div id="cat-main">
+        <div class="hello"><h2>Captions</h2><p>Works offline · Tap a category</p></div>
+        <input type="text" id="cap-q" placeholder="Search captions or categories..." autocomplete="off" style="margin-bottom:12px"><div id="cats"></div>
+      </div>
+      <div id="cat-det" class="hidden">
+        <button class="btn b2" id="cat-back" style="margin:14px 0 4px">← Back</button>
+        <div class="hello"><h2 id="cat-title"></h2></div>
+        <div id="cat-caps"></div>
+      </div>
+    </section>
+
+    <section class="page" id="page-msg">
+      <div id="chat-list-v">
+        <div class="hello"><h2>Messages</h2><p>Open a profile and tap Message to start a chat</p></div>
+        <div id="chats"></div>
+      </div>
+      <div id="room">
+        <div class="row" style="padding:12px 0 8px;border-bottom:1px solid var(--ln)">
+          <button class="btn b2" id="room-back">←</button><div id="room-av"></div><div class="meta"><strong id="room-name"></strong><span id="room-st"></span></div>
+        </div>
+        <div id="msgs"></div>
+        <form class="cbar" id="chat-form"><input type="text" id="chat-in" placeholder="Message..." autocomplete="off" required><button class="btn b1">Send</button></form>
+      </div>
+    </section>
+
+    <section class="page" id="page-me">
+      <button class="btn b2 hidden" id="pf-back" style="margin-top:14px">← Back</button>
+      <div id="pf"></div>
+      <form id="prof-form" class="card hidden" style="display:block;cursor:default">
+        <div class="field"><label>Name</label><input type="text" id="f-name" maxlength="40"></div>
+        <div class="field"><label>Username (a-z, 0-9, _)</label><input type="text" id="f-handle" maxlength="25"></div>
+        <div class="field"><label>Bio</label><textarea id="f-bio" maxlength="180" style="min-height:64px"></textarea></div>
+        <div class="field"><button type="button" class="btn b2" id="pick-av" style="width:100%">📷 Change profile photo</button><input class="hidden" type="file" id="av-in" accept="image/*"></div>
+        <div class="field row between"><label style="margin:0">Show my active status</label><input type="checkbox" id="f-active"></div>
+        <button class="btn b1" style="width:100%;border-radius:10px;padding:11px">Save</button>
+      </form>
+      <div id="pf-tools" class="hidden"><button class="btn b2" id="logout" style="width:100%;margin:6px 0">Log out</button><p style="font-size:11px;color:var(--mu);text-align:center">UID: <span id="p-uid" style="user-select:all"></span></p></div>
+      <div id="pbody"></div>
+    </section>
+
+    <section class="page" id="page-search">
+      <div class="hello"><h2>Find people</h2><p>Search by username or name</p></div>
+      <input type="text" id="sq" placeholder="e.g. rahul_99" autocomplete="off" style="margin-bottom:12px">
+      <div id="sres"></div>
+    </section>
+
+    <section class="page" id="page-admin"><div class="hello"><h2>Admin panel</h2><p id="adm-stats"></p></div><div id="adm-users"></div></section>
+  </main>
+  <nav>
+    <button class="active" data-tab="home"><span class="i">🏠</span>Home</button>
+    <button data-tab="cap"><span class="i">📖</span>Captions</button>
+    <button data-tab="msg"><span class="i">💬</span>Messages<span class="badge hidden" id="nb"></span></button>
+    <button data-tab="me"><span class="i">👤</span>Profile</button>
+    <button id="nav-admin" class="hidden" data-tab="admin"><span class="i">🛡️</span>Admin</button>
+  </nav>
+</div>
+<div id="toast" role="status"></div>
+
+<script>
+window.CAPTIONS = [
+        { title: '😍 প্রথম দেখায় ভালো লাগার অনুভূতি', sub: 'চোখের দেখা ও প্রথম চেনার স্মৃতি', emoji: '😍', captions: [
+          'তোমাকে প্রথম দেখার সেই মুহূর্তটা আজও চোখে লেগে আছে। অচেনা একজন কীভাবে এত আপন হয়ে গেল, বুঝতেই পারিনি।',
+          'প্রথম দেখাতেই মন বলে উঠেছিল—এই মানুষটার গল্পটা একটু অন্যরকম।',
+          'তোমার একটুখানি হাসি সেদিন আমার পুরো দিনটাকে সুন্দর করে দিয়েছিল।',
+          'চোখের দেখা যে মনের এত কাছে চলে আসতে পারে, তোমাকে না দেখলে জানতাম না।',
+          'ভিড়ের মাঝে অনেক মুখ ছিল, অথচ আমার চোখ শুধু তোমাকেই খুঁজেছিল।',
+          'প্রথম পরিচয়ের ছোট্ট মুহূর্তটাই আজ আমার সবচেয়ে প্রিয় স্মৃতি।',
+          'তোমার চোখে চোখ পড়তেই মনে হয়েছিল, সময়টা একটু থেমে যাক।',
+          'কোনো কারণ ছিল না, তবু প্রথম দেখাতেই তোমাকে ভালো লেগে গিয়েছিল।',
+          'সেদিনের সেই লাজুক হাসি আজও মনে পড়লে মন ভালো হয়ে যায়।',
+          'কিছু মানুষকে প্রথম দেখাতেই আপন মনে হয়—তুমি তাদেরই একজন।'
+        ]},
+        { title: '🌹 ভালোবাসার প্রথম চিঠি', sub: 'কাগজের পাতায় জমানো না বলা কথা', emoji: '🌹', captions: [
+          'প্রিয় মানুষ, জানি না এই চিঠির প্রতিটি শব্দ তোমার মনে পৌঁছাবে কি না, তবে প্রতিটি শব্দে তুমি আছো।',
+          'তোমাকে বলার মতো অনেক কথা জমে আছে। আজ এই চিঠির পাতায় একটু একটু করে সেগুলো লিখে দিলাম।',
+          'তোমার নাম লিখলেই কাগজের সাদা পাতাটাও যেন গোলাপের মতো সুন্দর হয়ে ওঠে।',
+          'ভালোবাসি—শব্দটা ছোট, কিন্তু তোমাকে ঘিরে আমার অনুভূতিটা অনেক বড়।',
+          'এই চিঠি কোনো প্রতিশ্রুতির বোঝা নয়; শুধু জানিয়ে দেওয়া, তুমি আমার ভাবনায় থাকো।',
+          'তোমার সঙ্গে কাটানো ছোট্ট সময়গুলোই আমার দিনের সবচেয়ে সুন্দর অধ্যায়।',
+          'কখনো মুখে বলতে না পারা কথাগুলো আজ সাহস করে তোমাকে লিখছি।',
+          'তুমি পাশে থাকলে সাধারণ দিনও উৎসবের মতো মনে হয়।',
+          'চিঠির শেষে শুধু এটুকু বলি—তোমার হাসিটা যেন কখনো হারিয়ে না যায়।',
+          'আমার মনের প্রথম চিঠির প্রতিটি লাইনে একটাই নাম—তোমার নাম।'
+        ]},
+        { title: '💝 নতুন প্রেমের আবেগী কথা', sub: 'শুরু হওয়া সম্পর্কের মিষ্টি অনুভূতি', emoji: '💝', captions: [
+          'নতুন এই অনুভূতির নাম ভালোবাসা কি না জানি না, তবে তোমার অপেক্ষায় সময় কাটাতে ভালো লাগে।',
+          'তোমার একটি মেসেজেই মনটা অকারণে আনন্দে ভরে ওঠে।',
+          'দিনের শেষে তোমার সঙ্গে একটু কথা বলাই এখন আমার প্রিয় অভ্যাস।',
+          'সবকিছু নতুন লাগছে, কারণ প্রতিটি ভাবনার মাঝে তুমি এসে দাঁড়াও।',
+          'তোমার সঙ্গে ভবিষ্যতের ছোট ছোট স্বপ্ন দেখতে শুরু করেছি।',
+          'তোমার নামের নোটিফিকেশন দেখলেই মুখে হাসি চলে আসে।',
+          'এই নতুন ভালো লাগাটুকু যত্ন করে রাখতে চাই, কোনো তাড়াহুড়ো ছাড়াই।',
+          'তোমাকে জানার প্রতিটি দিন যেন নতুন একটি সুন্দর অধ্যায়।',
+          'কথা শেষ হয়ে গেলেও তোমার সঙ্গে কথা বলার ইচ্ছেটা শেষ হয় না।',
+          'নতুন প্রেমের সবচেয়ে সুন্দর দিক হলো—একজন মানুষকে নতুন করে আবিষ্কার করা।'
+        ]},
+        { title: '💓 প্রেমে হাবুডুবু খাওয়ার অনুভূতি', sub: 'হৃদয়ের গভীরে ভালোবাসার টান', emoji: '💓', captions: [
+          'তোমার ভাবনায় ডুবে থাকতে থাকতে কখন যে সময় পেরিয়ে যায়, টেরই পাই না।',
+          'মনটা এখন তোমার নামের নদীতে প্রতিদিন একটু একটু করে ভেসে যায়।',
+          'যেদিকেই তাকাই, কোনো না কোনোভাবে তোমার কথাই মনে পড়ে।',
+          'তোমার হাসি, তোমার কথা, তোমার অভিমান—সবকিছুতেই আমি মুগ্ধ।',
+          'ভালোবাসার গভীরতায় ডুবেছি ঠিকই, তবে এই ডুব থেকে আর উঠতে ইচ্ছে করে না।',
+          'তোমার একটি ডাকেই আমার সব ব্যস্ততা থেমে যেতে চায়।',
+          'তুমি কাছে থাকো বা দূরে, আমার ভাবনার সবচেয়ে কাছের মানুষ তুমি।',
+          'হৃদয়ের প্রতিটি ধুকপুকানিতে যেন তোমার গল্প লেখা আছে।',
+          'তোমাকে নিয়ে ভাবতে ভাবতে রাত গভীর হয়, অথচ মন ভরে না।',
+          'আমি হয়তো একটু বেশিই ভালোবেসে ফেলেছি—তোমার চোখেই আমার পৃথিবী দেখি।'
+        ]},
+        { title: '🫂 গভীর প্রেমের অনুভূতি', sub: 'বিশ্বাস ও সারাজীবন পাশে থাকার প্রতিশ্রুতি', emoji: '🫂', captions: [
+          'ভালোবাসা মানে শুধু কাছে থাকা নয়, দূরে থেকেও একজনের ভালো থাকার জন্য মন থেকে প্রার্থনা করা।',
+          'তোমার অসম্পূর্ণতাগুলোসহ তোমাকে বুঝতে চাই, কারণ আমার কাছে তুমিই যথেষ্ট।',
+          'সময় বদলালেও তোমার পাশে থাকার ইচ্ছেটা যেন কখনো না বদলায়।',
+          'তোমার নীরবতাও বুঝতে শিখতে চাই, শুধু হাসির সময় পাশে থাকলেই ভালোবাসা পূর্ণ হয় না।',
+          'আমাদের গল্পে ভুল থাকতে পারে, কিন্তু একে অপরকে বোঝার চেষ্টাটা যেন থাকে।',
+          'তোমার হাত ধরে কঠিন দিনগুলোও সাহস নিয়ে পার করতে চাই।',
+          'ভালোবাসা আমার কাছে প্রতিদিন নতুন করে তোমাকে বেছে নেওয়ার নাম।',
+          'তোমার স্বপ্নগুলোকে নিজের স্বপ্নের মতো আগলে রাখতে চাই।',
+          'সম্পর্কের সবচেয়ে সুন্দর আশ্রয় হলো—যেখানে নিজেকে লুকাতে হয় না।',
+          'জীবনের শেষ বিকেলেও তোমার সঙ্গে গল্প করার ইচ্ছেটুকু যেন বেঁচে থাকে।'
+        ]},
+        { title: '👩‍❤️‍👨 বিবাহ বন্ধনের প্রস্তুতি', sub: 'দুই পরিবারের আশীর্বাদ ও সংসার গড়ার স্বপ্ন', emoji: '👩‍❤️‍👨', captions: [
+          'আজ স্বপ্নগুলো শুধু কল্পনায় নয়, একসঙ্গে জীবন গড়ার প্রস্তুতিতে রূপ নিচ্ছে।',
+          'দুটি পরিবারের আশীর্বাদে আমাদের ভালোবাসা নতুন একটি ঠিকানা পেতে চলেছে।',
+          'বিয়ের আয়োজনের ব্যস্ততার মাঝেও সবচেয়ে সুন্দর ভাবনা—এবার প্রতিদিন তোমাকে পাশে পাব।',
+          'আজ থেকে আমাদের স্বপ্নের তালিকায় থাকবে একটি সংসার, অনেক গল্প আর অফুরন্ত মায়া।',
+          'আংটির ছোট্ট বৃত্তে যেন আমাদের দুজনের অনেক বড় স্বপ্ন আটকে আছে।',
+          'একসঙ্গে পথচলার সিদ্ধান্ত নিয়েছি; এবার ভালোবাসাকে দায়িত্ব আর যত্নে সাজাব।',
+          'বিয়ের দিনের অপেক্ষা যতটা আনন্দের, তার চেয়েও বেশি আনন্দের সারাজীবন একসঙ্গে থাকার ভাবনা।',
+          'আজ প্রস্তুতি শুধু অনুষ্ঠানের নয়, একে অপরের পাশে থাকার প্রতিদিনের অঙ্গীকারের।',
+          'তোমার হাত ধরে নতুন ঘর সাজানোর স্বপ্নে মনটা আজ ভীষণ ব্যস্ত।',
+          'আমাদের ভালোবাসার গল্প এবার নতুন অধ্যায়ে পা রাখছে—দোয়া কোরো।'
+        ]},
+        { title: '💘 একতরফা ভালোবাসা', sub: 'নীরব ভালোলাগা ও দূরের মানুষ', emoji: '💘', captions: [
+          'তুমি জানো না, তবু দিনের অনেকটা সময় তোমার কথা ভেবেই কেটে যায়।',
+          'তোমার হাসির কারণ হতে পারিনি, তবু দূর থেকে তোমার হাসি দেখেই ভালো থাকি।',
+          'সব ভালোবাসার উত্তর পাওয়া যায় না; কিছু অনুভূতি নীরবেই সুন্দর থেকে যায়।',
+          'তোমার গল্পে আমি হয়তো নেই, কিন্তু আমার গল্পের অনেক পাতায় তুমি আছো।',
+          'কাছে পাওয়ার দাবি নেই, শুধু চাই তুমি নিজের জীবনে সুখী হও।',
+          'যে অনুভূতির কথা কখনো বলা হয়নি, সেটাই হয়তো আমার সবচেয়ে দীর্ঘ গল্প।',
+          'তোমার একটি সাধারণ কথাও আমার কাছে অনেক বিশেষ হয়ে থাকে।',
+          'একতরফা ভালোবাসা কষ্টের, তবু অনুভূতিটা মিথ্যে নয়।',
+          'তোমাকে না পেয়েও তোমার ভালো থাকার খবর শুনে মনটা শান্ত হয়।',
+          'কিছু মানুষ হৃদয়ে থেকে যায়, বাস্তব জীবনে তাদের জায়গা না হলেও।'
+        ]},
+        { title: '❤️‍🩹 ভালোবাসায় ব্রেকআপ', sub: 'বিচ্ছেদ ও নতুন করে ঘুরে দাঁড়ানো', emoji: '❤️‍🩹', captions: [
+          'একসঙ্গে পথচলা থেমে গেছে, কিন্তু নিজের জীবনকে আবার গুছিয়ে নেওয়ার পথ এখনো খোলা।',
+          'সব সম্পর্ক শেষ হলেও নিজের প্রতি ভালোবাসাটা যেন কখনো শেষ না হয়।',
+          'কিছু বিদায় কষ্ট দেয়, আবার সেই বিদায়ই নতুন করে বাঁচতে শেখায়।',
+          'স্মৃতিগুলো মুছে ফেলব না; শুধু তাদের ভার নিয়ে আর প্রতিদিন হাঁটব না।',
+          'যে গল্পটা শেষ হয়েছে, তার জন্য নিজেকে দোষী করে সারাজীবন কাটাতে চাই না।',
+          'আজ মন খারাপ, তবু বিশ্বাস করি একদিন এই কষ্টটাও হালকা হয়ে যাবে।',
+          'দুজনের পথ আলাদা হয়েছে, তাই বলে আমার ভবিষ্যৎ থেমে নেই।',
+          'ভালোবাসার স্মৃতিকে সম্মান করি, আর নিজের শান্তিকেও এবার গুরুত্ব দিই।',
+          'কাউকে হারানোর পর নিজেকে হারিয়ে ফেলো না—তুমিও যত্ন পাওয়ার যোগ্য।',
+          'শেষ মানেই সব শেষ নয়; কখনো কখনো শেষ থেকেই নতুন শুরু হয়।'
+        ]},
+        { title: '💔 প্রেমে মন ভেঙে যাওয়া', sub: 'কষ্টের স্মৃতি ও চোখের জল', emoji: '💔', captions: [
+          'যার কাছে মন খুলে বলতাম, আজ তার কাছেই নিজের কষ্ট লুকাতে হয়।',
+          'বিশ্বাস ভাঙার শব্দ হয় না, কিন্তু তার প্রতিধ্বনি অনেক দিন মনে বাজে।',
+          'হাসছি ঠিকই, তবে ভেতরের মনটা একটু সময় চাইছে।',
+          'সবচেয়ে বেশি কষ্ট হয় তখন, যখন প্রিয় মানুষটাই অচেনা হয়ে যায়।',
+          'মন ভাঙার পরও নিজেকে শক্ত দেখাতে হয়—এটাই সবচেয়ে ক্লান্তিকর।',
+          'যে কথাগুলো একদিন শান্তি দিত, আজ সেগুলোই চোখ ভিজিয়ে দেয়।',
+          'কাউকে ধরে রাখতে গিয়ে নিজের আত্মসম্মান হারিয়ে ফেলতে নেই।',
+          'আজকের কান্না একদিন সাহস হয়ে ফিরুক, এই কামনাই করি।',
+          'ভাঙা মনকে সময় দাও; সব ক্ষত এক দিনে সারে না।',
+          'তুমি চলে গেছো, কিন্তু নিজের পাশে থাকার দায়িত্বটা আমারই।'
+        ]},
+        { title: '🥱 শুভ সকাল', sub: 'নতুন দিন ও রোদের আলো', emoji: '🥱', captions: [
+          'নতুন সকাল মানেই নতুন আশা। তোমার দিনটি হোক হাসি, শান্তি আর সুন্দর মুহূর্তে ভরা। শুভ সকাল! ☀️',
+          'ঘুম ভাঙুক ভালো লাগায়, দিন শুরু হোক আত্মবিশ্বাসে। সবাইকে মিষ্টি শুভ সকাল।',
+          'গতকালের দুশ্চিন্তা পেছনে রেখে আজকের দিনটাকে নতুন করে আপন করে নাও। শুভ সকাল।',
+          'এক কাপ চা, একটুখানি রোদ আর অনেকটা ভালো থাকার ইচ্ছে—এভাবেই শুরু হোক দিন।',
+          'আজকের প্রতিটি কাজে সফলতা আর প্রতিটি মুহূর্তে প্রশান্তি আসুক। শুভ সকাল।',
+          'সকালের আলো মনে করিয়ে দেয়, প্রতিদিনই নতুন করে শুরু করার সুযোগ আছে।',
+          'হাসিমুখে দিন শুরু করো, ভালো কিছু নিশ্চয়ই অপেক্ষা করছে। শুভ সকাল! 🌼',
+          'তোমার সকালটা হোক ফুলের সুবাসের মতো সতেজ আর মনটা থাকুক আনন্দে ভরা।',
+          'সুন্দর দিনের জন্য সুন্দর একটি মনই যথেষ্ট। সবাই ভালো থেকো, শুভ সকাল।',
+          'আকাশের রঙ বদলেছে, নতুন দিন এসেছে—তোমার স্বপ্নের দিকেও আজ এক ধাপ এগিয়ে যাও।'
+        ]},
+        { title: '😴 শুভ রাত্রি', sub: 'শান্ত ঘুম ও সুন্দর স্বপ্ন', emoji: '😴', captions: [
+          'দিনের সব ক্লান্তি ভুলে শান্তিতে ঘুমাও। আগামী সকাল তোমার জন্য নতুন আনন্দ নিয়ে আসুক। শুভ রাত্রি। 🌙',
+          'চাঁদের নরম আলোয় মুছে যাক সব দুশ্চিন্তা, স্বপ্নগুলো হোক সুন্দর। শুভ রাত্রি।',
+          'আজ যা হয়নি তা নিয়ে মন খারাপ নয়; আগামীকাল আবার নতুন সুযোগ আসবে। ভালো থেকো, শুভ রাত্রি।',
+          'চোখ বন্ধ করো, মনকে একটু বিশ্রাম দাও। রাতটা হোক শান্তিময়।',
+          'তারাভরা আকাশের মতো তোমার স্বপ্নগুলোও উজ্জ্বল হোক। মিষ্টি ঘুম আর শুভ রাত্রি।',
+          'সারাদিনের ব্যস্ততার পর নিজের জন্য একটু শান্তি রাখো। শুভ রাত্রি সবাইকে।',
+          'অভিমানগুলো আজ রাতের বাতাসে ছেড়ে দাও, মন ভরে ঘুমিয়ে পড়ো।',
+          'আগামীকাল আরও ভালো হবে—এই বিশ্বাস নিয়ে রাতের কাছে নিজেকে সঁপে দাও।',
+          'তোমার রাত হোক নিরাপদ, ঘুম হোক গভীর, আর স্বপ্ন হোক রঙিন। শুভ রাত্রি।',
+          'নীরব রাত তোমার মনে এনে দিক প্রশান্তি, সব ভালোবাসা রইল। শুভ রাত্রি।'
+        ]},
+        { title: '🍰 জন্মদিনের শুভেচ্ছা', sub: 'বিশেষ দিনের আনন্দ ও শুভকামনা', emoji: '🍰', captions: [
+          'শুভ জন্মদিন! তোমার জীবনের প্রতিটি দিন আনন্দ, সুস্বাস্থ্য আর সাফল্যে ভরে উঠুক। 🎂',
+          'নতুন বয়সে নতুন স্বপ্ন পূরণ হোক, মুখের হাসিটা থাকুক সারাবছর। অনেক শুভেচ্ছা।',
+          'জন্মদিনে একটাই প্রার্থনা—তোমার মন যা চায়, সুন্দরভাবে তার সবটুকু পূরণ হোক।',
+          'জীবনের ক্যালেন্ডারে আজকের দিনটি বিশেষ। হাসি, ভালোবাসা আর মজায় কাটুক তোমার দিন।',
+          'তোমার প্রতিটি সকাল হোক আশার, প্রতিটি রাত হোক তৃপ্তির। শুভ জন্মদিন প্রিয় মানুষ।',
+          'আরও একটি বছর, আরও অনেক অভিজ্ঞতা—সামনের পথ হোক সুন্দর ও আলোকিত।',
+          'কেকের মিষ্টির চেয়েও মিষ্টি হোক তোমার আগামী দিনগুলো। শুভ জন্মদিন! 🍰',
+          'তোমার স্বপ্নের পথে সাহস আর সৌভাগ্য সঙ্গী হোক। জন্মদিনের অনেক ভালোবাসা।',
+          'আজকের দিনটি নিজের মতো করে উপভোগ করো। তুমি সত্যিই অনেক ভালো থাকার যোগ্য।',
+          'শুভ জন্মদিন! জীবনে এমন মানুষ আর মুহূর্ত আসুক, যাদের জন্য প্রতিদিন কৃতজ্ঞ হবে।'
+        ]},
+        { title: '😡 রাগ ভাঙানো', sub: 'অভিমান ও মন ভালো করার কথা', emoji: '😡', captions: [
+          'রাগ করে থেকো না, তোমার হাসিটা আমার খুব প্রিয়। ভুল করে থাকলে মন থেকে ক্ষমা চাইছি।',
+          'তোমার কষ্ট দেওয়ার ইচ্ছে আমার ছিল না। একটু সময় দাও, মন দিয়ে তোমার কথা শুনতে চাই।',
+          'জিততে চাই না তর্কে, চাই আমাদের মধ্যে আবার আগের মতো মিষ্টি কথা ফিরে আসুক।',
+          'রাগের কারণটা বুঝতে চাই, অজুহাত দিতে নয়—তোমার মনটা ভালো করতে চাই।',
+          'তুমি আমার কাছে গুরুত্বপূর্ণ বলেই তোমার অভিমানটাও গুরুত্ব দিয়ে দেখি। কথা বলবে?',
+          'একটা ভুলের জন্য সুন্দর মুহূর্তগুলো হারাতে চাই না। চলো, শান্ত হয়ে কথা বলি।',
+          'ক্ষমা চাওয়াটা ছোট হওয়া নয়; তোমাকে কষ্ট দিয়ে থাকলে ক্ষমা চাওয়াটা আমার দায়িত্ব।',
+          'তোমার রাগ কমানোর জন্য জোর করব না। তুমি প্রস্তুত হলে আমি মন দিয়ে শুনব।',
+          'অভিমান থাকতেই পারে, শুধু আমাদের কথার দরজাটা বন্ধ কোরো না।',
+          'তোমার মুখে হাসি ফিরুক—তার আগে নিজের ভুলটা ঠিক করার চেষ্টা করব।'
+        ]},
+        { title: '🥰 প্রিয় বন্ধুর জন্য অনুভূতি', sub: 'বন্ধুত্ব ও সুখ-দুঃখের সাথী', emoji: '🥰', captions: [
+          'বন্ধু মানে শুধু আড্ডা নয়, খারাপ সময়েও যে পাশে থাকে সেই মানুষটার নাম। ভালো থাকিস সবসময়।',
+          'রক্তের সম্পর্ক না হয়েও যে পরিবার হয়ে ওঠে, তুই আমার কাছে ঠিক তেমনই একজন।',
+          'জীবনের অনেক গল্প বদলাবে, কিন্তু আমাদের বন্ধুত্বের স্মৃতিগুলো সবসময় বিশেষ থাকবে।',
+          'মন খারাপের দিনে তোর একটা ফোনই অনেকটা সাহস দিয়ে যায়। ধন্যবাদ পাশে থাকার জন্য।',
+          'সব কথা সবাইকে বলা যায় না, কিন্তু তোকে নির্দ্বিধায় বলা যায়—এটাই বন্ধুত্ব।',
+          'দূরত্ব বাড়লেও বন্ধুত্ব কমে না; তুই সবসময় আমার প্রিয় মানুষদের একজন।',
+          'হাসি-কান্না, পাগলামি আর অসংখ্য স্মৃতির নাম আমাদের বন্ধুত্ব।',
+          'ভালো বন্ধু পাওয়া ভাগ্যের ব্যাপার, আর তোকে পাওয়া আমার জীবনের সুন্দর উপহার।',
+          'তোর স্বপ্নগুলো পূরণ হোক, আর জীবনের প্রতিটি পথে ভালো মানুষ পাশে থাকুক।',
+          'বন্ধু, তুই যেমন আছিস তেমনই থাকিস—সত্যিকারের আর মনখোলা। অনেক ভালোবাসা।'
+        ]},
+        { title: '😆 বন্ধুদের হাসান', sub: 'মজা, আড্ডা ও হাসিখুশি মুহূর্ত', emoji: '😆', captions: [
+          'আমার ডায়েট শুরু হয়েছে—আজ থেকে শুধু খাবারের ছবি দেখব, খাব না। ছবিটা দেখেই অবশ্য ক্ষুধা লেগে গেল! 😂',
+          'বন্ধুদের সঙ্গে প্ল্যান করা খুব সহজ; কঠিন হলো সবাইকে সময়মতো বাসা থেকে বের করা।',
+          'আমি অলস নই, আমি শুধু এনার্জি সেভিং মোডে চলি। চার্জার হিসেবে বিরিয়ানি চাই! 😆',
+          'পরীক্ষার হলে প্রশ্ন দেখে মনে হলো, স্যার ভুল করে অন্য ক্লাসের প্রশ্ন দিয়ে দিয়েছেন!',
+          'বন্ধু বলল, বড় হয়ে কী হবি? বললাম—আগে ঘুমটা বড় করে নিই, তারপর ভাবব।',
+          'আমাদের বন্ধুত্ব এত গভীর যে একজন বিপদে পড়লে বাকিরা আগে হাসে, পরে উদ্ধার করে।',
+          'মোবাইলের চার্জ আর আমার ধৈর্য—দুটোই ১০% হলেই সতর্কবার্তা আসে।',
+          'টাকা দিয়ে সুখ কেনা যায় না, তবে ফুচকা কিনে সাময়িক শান্তি পাওয়া যায়।',
+          'সকালে অ্যালার্মকে হারিয়ে আবার ঘুমিয়ে পড়েছি। আজকের ম্যাচে আমিই চ্যাম্পিয়ন।',
+          'বন্ধুদের গ্রুপে সবাই ব্যস্ত, শুধু মিম পাঠানোর দায়িত্বে আমি ফুলটাইম কর্মচারী।'
+        ]},
+        { title: '💭 একাকিত্ব ও নিজের সঙ্গে কথা', sub: 'নীরবতা ও আত্মোপলব্ধি', emoji: '💭', captions: [
+          'কখনো কখনো একা থাকাটা কষ্টের নয়, বরং নিজের সঙ্গে কথা বলার সুন্দর সুযোগ।',
+          'সবাই ব্যস্ত, তবু নিজের জন্য একটু সময় বের করা নিজের প্রতি ভালোবাসারই নাম।',
+          'একা থাকলেও একা নই, কারণ আমার সঙ্গে আছে আমার স্বপ্ন আর ভরসা।',
+          'দিনের শেষে নিজের সঙ্গে সৎ থাকাটাই সবচেয়ে বড় শান্তি।',
+          'কিছু দুঃখ শেয়ার না করাই ভালো, কারণ সেগুলো শুধু সময়ের সঙ্গে সারে।',
+          'নিজেকে ভালোবাসতে শেখা মানে নিজের সঙ্গে সম্পর্কটা সবচেয়ে আগে গুছিয়ে নেওয়া।',
+          'প্রতিটি নীরবতা ভয়ের নয়—কিছু নীরবতা হৃদয়ের সবচেয়ে সত্যি কথা বলে।',
+          'যে দিন একা হাসতে শিখবে, সেদিন বুঝবে সুখ কারও ওপর নির্ভর করে না।',
+          'আজ মন খারাপ, কিন্তু আগামীকালের জন্য নিজেকে একটু সময় দিলাম।',
+          'নিজের সঙ্গে কথা বলা সহজ নয়, তবে সেটাই সবচেয়ে দরকারি কথোপকথন।'
+        ]},
+        { title: '🌧️ বৃষ্টির দিনের অনুভূতি', sub: 'চা, মেঘ ও স্মৃতির ভিড়', emoji: '🌧️', captions: [
+          'বৃষ্টির শব্দে মনটা কেমন যেন শান্ত হয়ে যায়, যেন পৃথিবী একটু থেমে গেছে।',
+          'জানালার বাইরে বৃষ্টি, হাতে এক কাপ চা—এই ছোট্ট মুহূর্তেই পূর্ণতা।',
+          'বৃষ্টির দিনগুলো একা কাটানো কষ্টের, তবে প্রিয় কারও কথা মনে পড়লেই হালকা হয়ে যায়।',
+          'বৃষ্টি মানেই নতুন করে ভিজে যাওয়া, আগের সব ধুলো মুছে ফেলা।',
+          'কিছু দিন বৃষ্টির মতোই আসে—হঠাৎ, আর তারপর মনটা ভিজিয়ে চলে যায়।',
+          'বৃষ্টির দিনে বাড়িতে থাকা একঘেয়ে নয়, বরং নিজের সঙ্গে কিছুক্ষণ একান্তে থাকার সুযোগ।',
+          'মেঘের ছায়ায় শহরটা যেন অন্য এক রঙে সেজে ওঠে।',
+          'প্রিয় মানুষের সঙ্গে বৃষ্টি ভাগ করে নেওয়াটাই বৃষ্টির সবচেয়ে সুন্দর অংশ।',
+          'আজ মন খারাপ, বাইরে বৃষ্টি—দুটোই একসঙ্গে কেঁদে নিক।',
+          'বৃষ্টির পরের মাটির গন্ধ মনে করিয়ে দেয়, ঝড়ের পরেও নতুন কিছু ফোটে।'
+        ]}
+];
+</script>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
+import {getAuth,initializeAuth,indexedDBLocalPersistence,browserLocalPersistence,inMemoryPersistence,GoogleAuthProvider,signInWithPopup,createUserWithEmailAndPassword,signInWithEmailAndPassword,sendPasswordResetEmail,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js";
+import {initializeFirestore,getFirestore,persistentLocalCache,persistentMultipleTabManager,collection,doc,setDoc,addDoc,updateDoc,deleteDoc,getDoc,getDocs,onSnapshot,query,orderBy,limit,where,serverTimestamp,arrayUnion,arrayRemove,increment,runTransaction,writeBatch} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-firestore.js";
+
+const firebaseConfig={
+  apiKey:"AIzaSyAvGaCRzMQVnRDboY2EmfTfLJ4ZbQoxj8E",
+  authDomain:"feelo-f44f0.firebaseapp.com",
+  databaseURL:"https://feelo-f44f0-default-rtdb.firebaseio.com",
+  projectId:"feelo-f44f0",
+  storageBucket:"feelo-f44f0.firebasestorage.app",
+  messagingSenderId:"1020445550500",
+  appId:"1:1020445550500:web:ab10f8c82b3d5621234331"
+};
+const app=initializeApp(firebaseConfig);let auth;try{auth=initializeAuth(app,{persistence:[indexedDBLocalPersistence,browserLocalPersistence,inMemoryPersistence]})}catch{auth=getAuth(app)}
+let db;try{db=initializeFirestore(app,{localCache:persistentLocalCache({tabManager:persistentMultipleTabManager()})})}catch{db=getFirestore(app)}
+
+const CATS=window.CAPTIONS||[];
+const $=s=>document.querySelector(s);
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ms=t=>t?.toMillis?t.toMillis():(t||0);
+const ago=t=>{if(!t)return 'just now';const m=Math.max(0,Math.floor((Date.now()-ms(t))/6e4));return m<1?'just now':m<60?m+'m ago':m<1440?Math.floor(m/60)+'h ago':new Date(ms(t)).toLocaleDateString('en',{day:'numeric',month:'short'})};
+const online=p=>p&&p.showActive!==false&&Date.now()-(p.lastActive||0)<300000;
+const actTxt=p=>!p||p.showActive===false||!p.lastActive?'':online(p)?'Active now':'Active '+ago(p.lastActive);
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2600)}
+const av=(n,s,cls='avatar',dot=false)=>`<div class="wrap"><div class="${cls}">${s?`<img src="${esc(s)}" referrerpolicy="no-referrer" alt="">`:esc((n||'?').trim().charAt(0).toUpperCase())}</div>${dot?'<i class="dot"></i>':''}</div>`;
+function compress(file,max=800,q=.7){return new Promise((ok,no)=>{const r=new FileReader();r.onload=e=>{const i=new Image();i.onload=()=>{const s=Math.min(1,max/Math.max(i.width,i.height));const c=document.createElement('canvas');c.width=Math.round(i.width*s);c.height=Math.round(i.height*s);c.getContext('2d').drawImage(i,0,0,c.width,c.height);ok(c.toDataURL('image/jpeg',q))};i.onerror=no;i.src=e.target.result};r.onerror=no;r.readAsDataURL(file)})}
+const chatId=(a,b)=>[a,b].sort().join('_');
+const d2=d=>d.data({serverTimestamps:'estimate'});
+
+let uid=null,me=null,posts=[],loaded=false,following=new Set(),followedBy=new Set(),allChats=[],pres={},presUn={},openCm=new Set(),cmData={},cmUn={},unsubs=[],selImg='',selAv='',dirty=false,isAdmin=false,adminUsers=[],admUn=null,hb=null,ucache={};
+let curTab='home',prevTab='home',viewUid=null,vdata=null,vposts=[],vfers=[],vfing=[],pfUn=[],listMode=null,editing=false;
+let activeChat=null,activeOther=null,roomUn=null,roomMsgs=[],guard=new Set(),lastType=0;
+
+// ---------- auth ----------
+const EM={'auth/invalid-credential':'Wrong email or password','auth/invalid-email':'Invalid email address','auth/email-already-in-use':'This email is already registered — tap Sign in','auth/weak-password':'Password must be at least 6 characters','auth/missing-password':'Enter a password','auth/network-request-failed':'No internet connection','auth/operation-not-allowed':'Email login is not enabled in Firebase Console','auth/too-many-requests':'Too many attempts, try again later','auth/unauthorized-domain':'This domain is not authorized in Firebase Console'};
+const lerr=m=>$('#login-err').textContent=m,emsg=e=>EM[e.code]||('Login failed: '+(e.code||e.message));
+if(/; wv\)/.test(navigator.userAgent)||location.protocol==='file:'){$('#google-btn').classList.add('hidden');$('#g-note').classList.remove('hidden')}
+$('#btn-in').onclick=async()=>{lerr('');try{await signInWithEmailAndPassword(auth,$('#em').value.trim(),$('#pw').value)}catch(e){lerr(emsg(e))}};
+$('#btn-up').onclick=async()=>{lerr('');try{await createUserWithEmailAndPassword(auth,$('#em').value.trim(),$('#pw').value)}catch(e){lerr(emsg(e))}};
+$('#btn-fp').onclick=async()=>{const m=$('#em').value.trim();if(!m)return lerr('Enter your email first');try{await sendPasswordResetEmail(auth,m);lerr('Password reset email sent ✓')}catch(e){lerr(emsg(e))}};
+$('#google-btn').onclick=async()=>{lerr('');try{await signInWithPopup(auth,new GoogleAuthProvider())}catch(e){lerr(['auth/operation-not-supported-in-this-environment','auth/popup-blocked','auth/web-storage-unsupported'].includes(e.code)?'Google login does not work here. Use email and password.':emsg(e))}};
+$('#logout').onclick=()=>signOut(auth);
+onAuthStateChanged(auth,u=>{
+  unsubs.forEach(f=>f());unsubs=[];Object.values(presUn).forEach(f=>f());presUn={};clearInterval(hb);
+  if(!u){uid=null;me=null;$('#app').classList.add('hidden');$('#login').classList.remove('hidden');return}
+  uid=u.uid;$('#login').classList.add('hidden');$('#app').classList.remove('hidden');start(u);
+});
+
+function start(u){
+  unsubs.push(onSnapshot(doc(db,'users',uid),async s=>{
+    if(!s.exists()){
+      const base=(u.email||'user').split('@')[0].replace(/[^a-zA-Z0-9_]/g,'').toLowerCase()||'user',h=base+Math.floor(Math.random()*9000+1000),name=u.displayName||(u.email||'User').split('@')[0];
+      await setDoc(doc(db,'handles',h),{uid}).catch(()=>{});
+      await setDoc(doc(db,'users',uid),{name,nameLower:name.toLowerCase(),handle:h,bio:'',avatar:u.photoURL||'',showActive:true,lastActive:Date.now(),createdAt:serverTimestamp()});return;
+    }
+    me=s.data();if(!me.nameLower)updateDoc(doc(db,'users',uid),{nameLower:(me.name||'').toLowerCase()});
+    renderMe();renderPosts();if(curTab==='me'&&viewUid===uid)renderProfile()
+  }));
+  unsubs.push(onSnapshot(query(collection(db,'posts'),orderBy('createdAt','desc'),limit(50)),s=>{posts=s.docs.map(d=>({id:d.id,...d2(d)}));loaded=true;renderPosts()},e=>toast('Feed error: '+e.code)));
+  unsubs.push(onSnapshot(query(collection(db,'follows'),where('follower','==',uid)),s=>{following=new Set(s.docs.map(d=>d.data().followee));renderPosts();renderProfile()}));
+  unsubs.push(onSnapshot(query(collection(db,'follows'),where('followee','==',uid)),s=>{followedBy=new Set(s.docs.map(d=>d.data().follower));renderPosts();renderProfile()}));
+  unsubs.push(onSnapshot(doc(db,'admins',uid),s=>{isAdmin=s.exists();$('#nav-admin').classList.toggle('hidden',!isAdmin);renderPosts();
+    if(isAdmin&&!admUn){admUn=onSnapshot(collection(db,'users'),q=>{adminUsers=q.docs.map(d=>({id:d.id,...d.data()}));renderAdmin()});unsubs.push(()=>{admUn?.();admUn=null})}},()=>{}));
+  unsubs.push(onSnapshot(query(collection(db,'chats'),where('members','array-contains',uid)),s=>{
+    allChats=s.docs.map(d=>({id:d.id,...d2(d)})).sort((a,b)=>ms(b.updatedAt)-ms(a.updatedAt));
+    allChats.forEach(c=>{const o=c.members.find(m=>m!==uid);watchUser(o);
+      const k='d'+c.id+ms(c.updatedAt);
+      if(c.lastSender&&c.lastSender!==uid&&ms(c.deliveredAt?.[uid])<ms(c.updatedAt)&&!guard.has(k)){guard.add(k);updateDoc(doc(db,'chats',c.id),{['deliveredAt.'+uid]:serverTimestamp()}).catch(()=>{})}});
+    markSeen();renderChats();if(activeChat)renderRoom();updateBadge()}));
+  beat();hb=setInterval(beat,180000);
+}
+function beat(){if(!uid||!me||me.showActive===false||document.hidden)return;updateDoc(doc(db,'users',uid),{lastActive:Date.now()}).catch(()=>{})}
+document.addEventListener('visibilitychange',beat);
+function watchUser(id){if(!id||presUn[id])return;presUn[id]=onSnapshot(doc(db,'users',id),s=>{if(s.exists()){pres[id]=s.data();ucache[id]=s.data();renderChats();if(activeOther===id)renderRoom()}})}
+async function getUser(id){if(ucache[id])return ucache[id];const s=await getDoc(doc(db,'users',id));return s.exists()?(ucache[id]=s.data()):{name:'User',handle:'user'}}
+
+// ---------- tabs ----------
+function showTab(t){curTab=t;
+  document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.tab===t));
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+t));
+  if(t==='cap')showCats();if(t==='msg'&&!activeChat)closeRoom();if(t==='me')loadProfile();if(t==='admin')renderAdmin();window.scrollTo(0,0)}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{if(b.dataset.tab==='me'){viewUid=uid;listMode=null;editing=false}showTab(b.dataset.tab)});
+$('#open-search').onclick=()=>{showTab('search');$('#sq').focus()};
+function openProfile(id){if(!id)return;prevTab=curTab==='me'?prevTab:curTab;viewUid=id;listMode=null;editing=false;showTab('me')}
+$('#pf-back').onclick=()=>{viewUid=uid;showTab(prevTab||'home')};
+
+// ---------- feed ----------
+function renderMe(){
+  if(!me)return;const h=new Date().getHours();
+  $('#greet').textContent=h<5?'Good night 🌙':h<12?'Good morning ☀️':h<17?'Good afternoon 🌤️':h<20?'Good evening 🌇':'Good night 🌙';
+  $('#c-av').innerHTML=av(me.name,me.avatar);$('#c-name').textContent=me.name;$('#p-uid').textContent=uid;
+}
+const flabel=id=>following.has(id)?'Following':followedBy.has(id)?'Follow back':'Follow';
+function postHTML(p){
+  const liked=p.likedBy?.includes(uid),mineP=p.uid===uid,cms=cmData[p.id]||[];
+  return `<article class="post" data-id="${esc(p.id)}">
+    <div class="row">${av(p.author,p.avatar)}<div class="meta lk" data-a="prof"><strong>${esc(p.author)}</strong><span>@${esc(p.handle)} · ${ago(p.createdAt)}</span></div>
+    ${mineP?`<button class="b3" data-a="del">🗑️</button>`:`<button class="b3 ${following.has(p.uid)?'on':''}" data-a="follow">${flabel(p.uid)}</button><button class="b3" data-a="dm">💬</button>`}${!mineP&&isAdmin?'<button class="b3" data-a="del">🗑️</button>':''}</div>
+    ${p.text?`<p class="ptext">${esc(p.text)}</p>`:''}${p.image?`<img class="pimg" src="${esc(p.image)}" loading="lazy" alt="">`:''}
+    <div class="stats"><span>❤️ ${p.likedBy?.length||0} likes</span><span>💬 ${p.commentCount||0} comments</span></div>
+    <div class="acts"><button class="act ${liked?'on':''}" data-a="like">${liked?'❤️':'🤍'} Like</button><button class="act" data-a="cm">💬 Comment</button><button class="act" data-a="share">↗️ Copy</button></div>
+    ${openCm.has(p.id)?`<div class="cm">${cms.map(c=>`<div class="bub"><b>${esc(c.author)}</b>${esc(c.text)}</div>`).join('')}<form class="cform" data-pid="${esc(p.id)}"><input type="text" name="c" placeholder="Add a comment..." required><button class="btn b1" style="padding:8px 14px">Send</button></form></div>`:''}
+  </article>`}
+function renderPosts(){
+  if(document.activeElement?.closest('.cform')){dirty=true;return}dirty=false;
+  $('#feed').innerHTML=!loaded?'<div class="empty">Loading…</div>':posts.length?posts.map(postHTML).join(''):'<div class="empty"><b>No posts yet</b><br>Be the first to share.</div>';
+  if(curTab==='me')renderPBody()}
+document.addEventListener('focusout',()=>{if(dirty)setTimeout(renderPosts,150)});
+async function toggleFollow(id){const r=doc(db,'follows',uid+'_'+id);following.has(id)?await deleteDoc(r):await setDoc(r,{follower:uid,followee:id})}
+async function postClick(e){
+  const b=e.target.closest('[data-a]');if(!b)return;const id=b.closest('[data-id]').dataset.id,p=posts.find(x=>x.id===id)||vposts.find(x=>x.id===id);if(!p)return;
+  try{
+    const a=b.dataset.a;
+    if(a==='prof')openProfile(p.uid);
+    else if(a==='like')updateDoc(doc(db,'posts',id),{likedBy:p.likedBy?.includes(uid)?arrayRemove(uid):arrayUnion(uid)});
+    else if(a==='del'){if(confirm('Delete this post?'))deleteDoc(doc(db,'posts',id))}
+    else if(a==='follow')await toggleFollow(p.uid);
+    else if(a==='dm')openChat(p.uid);
+    else if(a==='share'){await navigator.clipboard.writeText((p.text||'')+'\n\n— Feelo');toast('Copied ✓')}
+    else if(a==='cm'){
+      if(openCm.has(id)){openCm.delete(id);cmUn[id]?.();delete cmUn[id]}
+      else{openCm.add(id);cmUn[id]=onSnapshot(query(collection(db,'posts',id,'comments'),orderBy('createdAt')),s=>{cmData[id]=s.docs.map(d=>d.data());renderPosts()})}
+      renderPosts()}
+  }catch(err){toast('Error: '+(err.code||err.message))}}
+function cmSubmit(e){
+  const f=e.target.closest('.cform');if(!f)return;e.preventDefault();const t=f.c.value.trim();if(!t)return;
+  if(me.banned)return toast('Your account is restricted from commenting');f.c.value='';
+  addDoc(collection(db,'posts',f.dataset.pid,'comments'),{uid,author:me.name,text:t,createdAt:serverTimestamp()}).then(()=>updateDoc(doc(db,'posts',f.dataset.pid),{commentCount:increment(1)})).catch(err=>toast('Comment failed: '+(err.code||'')))}
+['#feed','#pbody'].forEach(s=>{$(s).addEventListener('click',postClick);$(s).addEventListener('submit',cmSubmit)});
+
+$('#pick-img').onclick=()=>$('#img-in').click();
+$('#img-in').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{selImg=await compress(f);$('#prev-img').src=selImg;$('#prev').style.display='block'}catch{toast('Could not load photo')}e.target.value=''};
+$('#rm-img').onclick=()=>{selImg='';$('#prev').style.display='none'};
+$('#post-form').onsubmit=e=>{
+  e.preventDefault();const text=$('#post-text').value.trim();
+  if(me.banned)return toast('Your account is restricted from posting');if(!text&&!selImg)return toast('Write something or add a photo');
+  addDoc(collection(db,'posts'),{uid,author:me.name,handle:me.handle,avatar:me.avatar||'',text,image:selImg,likedBy:[],commentCount:0,createdAt:serverTimestamp()}).catch(err=>toast('Post failed: '+(err.code||err.message)));
+  $('#post-text').value='';selImg='';$('#prev').style.display='none';toast(navigator.onLine?'Posted ✓':'Saved offline — will post when you are online')};
+
+// ---------- captions (offline) ----------
+const lc=s=>(s||'').toLocaleLowerCase('bn-BD');
+function showCats(){$('#cat-det').classList.add('hidden');$('#cat-main').classList.remove('hidden');
+  const q=lc($('#cap-q').value.trim());
+  const list=CATS.map((c,i)=>({c,i})).filter(({c})=>!q||lc(c.title+c.sub).includes(q)||c.captions.some(x=>lc(x).includes(q)));
+  $('#cats').innerHTML=list.length?list.map(({c,i})=>`<div class="card" data-i="${i}"><div class="avatar" style="background:var(--sub);font-size:20px">${esc(c.emoji)}</div><div class="meta"><strong>${esc(c.title)}</strong><span>${esc(c.sub||c.captions.length+' captions')}</span></div>›</div>`).join(''):'<div class="empty">Nothing found</div>'}
+function showCap(i){const k=CATS[i],q=lc($('#cap-q').value.trim());
+  const caps=k.captions.filter(t=>!q||lc(t).includes(q)||lc(k.title).includes(q));
+  $('#cat-title').textContent=k.title;$('#cat-main').classList.add('hidden');$('#cat-det').classList.remove('hidden');window.scrollTo(0,0);
+  $('#cat-caps').innerHTML=caps.map(t=>`<div class="card cap"><p>${esc(t)}</p><div class="row"><button class="b3" data-copy="${esc(t)}">📋 Copy</button><button class="b3" data-use="${esc(t)}">🚀 To feed</button></div></div>`).join('')}
+$('#cap-q').oninput=showCats;
+$('#cats').onclick=e=>{const c=e.target.closest('[data-i]');if(c)showCap(+c.dataset.i)};
+$('#cat-back').onclick=showCats;
+$('#cat-caps').onclick=async e=>{const c=e.target.closest('[data-copy]'),u=e.target.closest('[data-use]');
+  if(c){try{await navigator.clipboard.writeText(c.dataset.copy);toast('Copied ✓')}catch{toast('Copy failed')}}
+  if(u){showTab('home');$('#post-text').value=u.dataset.use;$('#post-text').focus();toast('Caption added to your post box')}};
+
+// ---------- profile ----------
+function loadProfile(){
+  pfUn.forEach(f=>f());pfUn=[];if(!viewUid)viewUid=uid;const vu=viewUid;vdata=vu===uid?me:null;vposts=[];vfers=[];vfing=[];
+  $('#pf-back').classList.toggle('hidden',vu===uid);
+  if(vu!==uid)pfUn.push(onSnapshot(doc(db,'users',vu),s=>{vdata=s.exists()?s.data():{name:'User',handle:'user'};renderProfile()}));
+  pfUn.push(onSnapshot(query(collection(db,'posts'),where('uid','==',vu),limit(100)),s=>{vposts=s.docs.map(d=>({id:d.id,...d2(d)})).sort((a,b)=>ms(b.createdAt)-ms(a.createdAt));renderProfile()}));
+  pfUn.push(onSnapshot(query(collection(db,'follows'),where('followee','==',vu)),s=>{vfers=s.docs.map(d=>d.data().follower);renderProfile()}));
+  pfUn.push(onSnapshot(query(collection(db,'follows'),where('follower','==',vu)),s=>{vfing=s.docs.map(d=>d.data().followee);renderProfile()}));
+  renderProfile()}
+function renderProfile(){
+  if(curTab!=='me')return;const vu=viewUid,own=vu===uid,d=own?me:vdata;
+  if(!d){$('#pf').innerHTML='<div class="empty">Loading…</div>';$('#pbody').innerHTML='';return}
+  $('#pf').innerHTML=`<div class="phero">${av(d.name,d.avatar)}<h2>${esc(d.name)}</h2><p>@${esc(d.handle)}</p>${d.bio?`<p style="color:var(--tx)">${esc(d.bio)}</p>`:''}${!own&&actTxt(d)?`<p>${actTxt(d)}</p>`:''}
+    <div class="grid3"><button data-l="posts"><b>${vposts.length}</b><span>Posts</span></button><button data-l="followers"><b>${vfers.length}</b><span>Followers</span></button><button data-l="following"><b>${vfing.length}</b><span>Following</span></button></div>
+    <div class="row" style="justify-content:center">${own?`<button class="btn b2" data-l="edit">${editing?'Close editor':'Edit profile'}</button>`:`<button class="btn ${following.has(vu)?'b2':'b1'}" data-l="follow">${flabel(vu)}</button><button class="btn b2" data-l="dm">Message</button>`}</div></div>`;
+  $('#prof-form').classList.toggle('hidden',!(own&&editing));$('#pf-tools').classList.toggle('hidden',!own);
+  if(own&&editing&&!$('#f-name').dataset.on){$('#f-name').dataset.on=1;$('#f-name').value=me.name;$('#f-handle').value=me.handle;$('#f-bio').value=me.bio||'';$('#f-active').checked=me.showActive!==false}
+  if(!editing)delete $('#f-name').dataset.on;
+  renderPBody()}
+async function renderPBody(){
+  const box=$('#pbody');if(curTab!=='me'||!viewUid)return;
+  if(listMode==='followers'||listMode==='following'){
+    const ids=listMode==='followers'?vfers:vfing;
+    box.innerHTML=`<div class="row between" style="margin:8px 0"><b style="text-transform:capitalize">${listMode}</b><button class="b3" data-l="posts">Show posts</button></div><div class="empty">Loading…</div>`;
+    const us=await Promise.all(ids.map(async id=>({id,u:await getUser(id)})));
+    if(!ids.length){box.innerHTML=`<div class="row between" style="margin:8px 0"><b style="text-transform:capitalize">${listMode}</b><button class="b3" data-l="posts">Show posts</button></div><div class="empty">Nobody here yet</div>`;return}
+    box.querySelector('.empty').outerHTML=us.map(({id,u})=>urow(id,u)).join('');return}
+  box.innerHTML=vposts.length?vposts.map(postHTML).join(''):'<div class="empty">No posts yet</div>'}
+$('#pf').addEventListener('click',async e=>{const b=e.target.closest('[data-l]');if(!b)return;const l=b.dataset.l;
+  if(l==='edit'){editing=!editing;renderProfile()}
+  else if(l==='follow')toggleFollow(viewUid).catch(()=>toast('Failed'));
+  else if(l==='dm')openChat(viewUid);
+  else{listMode=l==='posts'?null:l;renderPBody()}});
+$('#pbody').addEventListener('click',e=>{const b=e.target.closest('[data-l]');if(b){listMode=null;renderPBody()}});
+const urow=(id,u)=>`<div class="card" data-u="${esc(id)}">${av(u.name,u.avatar)}<div class="meta"><strong>${esc(u.name)}</strong><span>@${esc(u.handle)}</span></div>${id===uid?'':`<button class="b3 ${following.has(id)?'on':''}" data-f="${esc(id)}">${flabel(id)}</button>`}</div>`;
+function userClick(e){const f=e.target.closest('[data-f]');if(f){e.stopPropagation();toggleFollow(f.dataset.f).then(()=>{renderPBody();doSearch()});return}const r=e.target.closest('[data-u]');if(r)openProfile(r.dataset.u)}
+$('#pbody').addEventListener('click',userClick);$('#sres').addEventListener('click',userClick);
+$('#pick-av').onclick=()=>$('#av-in').click();
+$('#av-in').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{selAv=await compress(f,256,.75);toast('Photo ready — tap Save')}catch{toast('Could not load photo')}e.target.value=''};
+$('#prof-form').onsubmit=async e=>{e.preventDefault();
+  const data={name:$('#f-name').value.trim()||me.name,handle:($('#f-handle').value.trim()||me.handle).toLowerCase().replace(/[^a-z0-9_]/g,'')||me.handle,bio:$('#f-bio').value.trim(),showActive:$('#f-active').checked};
+  data.nameLower=data.name.toLowerCase();if(selAv)data.avatar=selAv;
+  try{
+    if(data.handle!==me.handle)await runTransaction(db,async t=>{
+      const n=doc(db,'handles',data.handle),x=await t.get(n);
+      if(x.exists()&&x.data().uid!==uid)throw new Error('taken');
+      t.set(n,{uid});t.delete(doc(db,'handles',me.handle))});
+    await updateDoc(doc(db,'users',uid),data);
+    const mine=new Map();[...posts,...vposts].filter(p=>p.uid===uid).forEach(p=>mine.set(p.id,p));
+    const b=writeBatch(db);mine.forEach(p=>b.update(doc(db,'posts',p.id),{author:data.name,handle:data.handle,avatar:data.avatar||me.avatar||''}));await b.commit();
+    selAv='';editing=false;renderProfile();toast('Profile saved ✓')
+  }catch(err){toast(err.message==='taken'?'That username is already taken':'Save failed: '+(err.code||''))}};
+
+// ---------- search ----------
+let sT;$('#sq').oninput=()=>{clearTimeout(sT);sT=setTimeout(doSearch,300)};
+async function doSearch(){
+  const q=$('#sq').value.trim().toLowerCase().replace(/^@/,'');if(!q){$('#sres').innerHTML='';return}
+  try{
+    const run=f=>getDocs(query(collection(db,'users'),where(f,'>=',q),where(f,'<=',q+'\uf8ff'),limit(20)));
+    const [a,b]=await Promise.all([run('handle'),run('nameLower')]);const m=new Map();
+    [...a.docs,...b.docs].forEach(d=>{if(d.id!==uid){m.set(d.id,d.data());ucache[d.id]=d.data()}});
+    $('#sres').innerHTML=m.size?[...m].map(([id,u])=>urow(id,u)).join(''):'<div class="empty">No people found</div>'
+  }catch(err){$('#sres').innerHTML='<div class="empty">Search needs an internet connection</div>'}}
+
+// ---------- messages ----------
+const unreadOf=c=>c.unread?.[uid]||0;
+function updateBadge(){const n=allChats.reduce((s,c)=>s+unreadOf(c),0);const b=$('#nb');b.textContent=n>99?'99+':n;b.classList.toggle('hidden',!n)}
+function renderChats(){
+  const list=allChats.filter(c=>c.lastMsg);const box=$('#chats');
+  box.innerHTML=list.length?list.map(c=>{const o=c.members.find(m=>m!==uid),p=pres[o],n=p?.name||c.names?.[o]||'User',un=unreadOf(c);
+    return `<div class="card" data-o="${esc(o)}">${av(n,p?.avatar,'avatar',online(p))}<div class="meta"><strong style="${un?'':'font-weight:500'}">${esc(n)}</strong><span style="${un?'color:var(--tx);font-weight:600':''}">${c.lastSender===uid?'You: ':''}${esc(c.lastMsg)}</span></div>${un?`<span class="badge">${un}</span>`:''}</div>`}).join(''):'<div class="empty">No chats yet</div>'}
+$('#chats').onclick=e=>{const c=e.target.closest('[data-o]');if(c)openChat(c.dataset.o)};
+async function openChat(other){
+  if(other===uid)return;if(!navigator.onLine)return toast('Chat needs an internet connection');
+  const id=chatId(uid,other),u=await getUser(other);ucache[other]=u;watchUser(other);
+  try{await setDoc(doc(db,'chats',id),{members:[uid,other].sort(),names:{[uid]:me.name,[other]:u.name}},{merge:true})}catch(err){return toast('Could not open chat: '+(err.code||''))}
+  showTab('msg');activeChat=id;activeOther=other;roomMsgs=[];
+  $('#chat-list-v').classList.add('hidden');$('#room').classList.add('on');
+  roomUn?.();roomUn=onSnapshot(query(collection(db,'chats',id,'messages'),orderBy('time')),s=>{roomMsgs=s.docs.map(d=>d2(d));renderRoom();markSeen()});
+  renderRoom()}
+function closeRoom(){roomUn?.();roomUn=null;activeChat=null;activeOther=null;$('#room').classList.remove('on');$('#chat-list-v').classList.remove('hidden');renderChats()}
+$('#room-back').onclick=closeRoom;
+function markSeen(){const c=allChats.find(x=>x.id===activeChat);if(!c||!c.lastSender||c.lastSender===uid)return;
+  const k='s'+c.id+ms(c.updatedAt);if((ms(c.seenAt?.[uid])>=ms(c.updatedAt)&&!unreadOf(c))||guard.has(k))return;guard.add(k);
+  updateDoc(doc(db,'chats',c.id),{['seenAt.'+uid]:serverTimestamp(),['unread.'+uid]:0}).catch(()=>{})}
+function renderRoom(){
+  if(!activeChat)return;const c=allChats.find(x=>x.id===activeChat)||{},o=activeOther,p=pres[o]||ucache[o];
+  $('#room-name').textContent=p?.name||'User';$('#room-av').innerHTML=av(p?.name,p?.avatar,'avatar',online(p));
+  const typing=Date.now()-(c.typing?.[o]||0)<5000;$('#room-st').textContent=typing?'typing…':actTxt(p);
+  if(typing)setTimeout(renderRoom,5200);
+  const lastOut=[...roomMsgs].reverse().find(m=>m.sender===uid);
+  $('#msgs').innerHTML=roomMsgs.map(m=>{let h=`<div class="m ${m.sender===uid?'out':'in'}">${esc(m.text)}</div>`;
+    if(m===lastOut){const t=ms(m.time),seen=t&&ms(c.seenAt?.[o])>=t,dl=t&&ms(c.deliveredAt?.[o])>=t;
+      h+=`<div class="st">${seen?`${av(p?.name,p?.avatar,'avatar sm').replace('class="wrap"','class="wrap"')} Seen`:dl?'✓✓ Delivered':t?'✓ Sent':'⏳ Sending'}</div>`}return h}).join('');
+  const m=$('#msgs');m.scrollTop=m.scrollHeight}
+$('#chat-form').onsubmit=e=>{e.preventDefault();const t=$('#chat-in').value.trim();if(!t||!activeChat)return;$('#chat-in').value='';
+  addDoc(collection(db,'chats',activeChat,'messages'),{sender:uid,text:t,time:serverTimestamp()}).catch(err=>toast('Not sent: '+(err.code||'')));
+  updateDoc(doc(db,'chats',activeChat),{lastMsg:t,lastSender:uid,updatedAt:serverTimestamp(),['unread.'+activeOther]:increment(1),['typing.'+uid]:0}).catch(()=>{})};
+$('#chat-in').oninput=()=>{if(!activeChat||Date.now()-lastType<2500)return;lastType=Date.now();updateDoc(doc(db,'chats',activeChat),{['typing.'+uid]:Date.now()}).catch(()=>{})};
+
+// ---------- admin ----------
+$('#adm-users').onclick=async e=>{const b=e.target.closest('[data-ban]');if(!b)return;try{await updateDoc(doc(db,'users',b.dataset.ban),{banned:b.dataset.b!=='1'})}catch(err){toast('Failed: '+(err.code||''))}};
+function renderAdmin(){
+  $('#adm-stats').textContent=adminUsers.length+' users · '+posts.length+' recent posts · delete posts with 🗑️ in the feed';
+  $('#adm-users').innerHTML=adminUsers.map(u=>`<div class="card" style="cursor:default">${av(u.name,u.avatar)}<div class="meta"><strong>${esc(u.name)}</strong><span>@${esc(u.handle)}${u.banned?' · 🚫 banned':''}</span></div>${u.id===uid?'':`<button class="b3" data-ban="${esc(u.id)}" data-b="${u.banned?1:0}">${u.banned?'Unban':'Ban'}</button>`}</div>`).join('')}
+
+// ---------- connection label ----------
+const net=()=>{const n=$('#net');n.textContent=navigator.onLine?'Online':'Offline';n.classList.toggle('off',!navigator.onLine)};
+addEventListener('online',net);addEventListener('offline',net);net();showCats();
+</script>
+</body>
+</html>
