@@ -65,6 +65,18 @@ nav button{position:relative;padding:7px 0;border-radius:10px;font-size:11px;col
 #toast{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom));transform:translate(-50%,12px);opacity:0;pointer-events:none;background:var(--tx);color:#fff;padding:9px 16px;border-radius:99px;font-size:12px;transition:.2s;z-index:60;max-width:90%;text-align:center}
 #toast.show{opacity:1;transform:translate(-50%,0)}
 .empty{padding:36px 16px;text-align:center;color:var(--mu);font-size:13px}
+.strip{display:flex;gap:8px;overflow-x:auto;padding:12px 0 4px;scrollbar-width:none}.strip::-webkit-scrollbar{display:none}
+.sc{flex:none;width:104px;height:168px;border:1px solid var(--ln);border-radius:12px;overflow:hidden;position:relative;background:var(--sf);cursor:pointer;text-align:center}
+.sc .ph{height:126px;background:var(--sub);display:grid;place-items:center;overflow:hidden}.sc .ph img{width:100%;height:100%;object-fit:cover}
+.sc .plus{position:absolute;left:50%;top:108px;transform:translateX(-50%);width:34px;height:34px;border-radius:50%;background:#1877f2;color:#fff;border:3px solid var(--sf);font-style:normal;font-size:22px;line-height:27px}
+.sc .lb{position:absolute;bottom:8px;left:0;right:0;font-size:12px;font-weight:600}
+.sc.note{padding:10px 8px;display:flex;flex-direction:column;justify-content:space-between;color:#18181b;text-align:left;border:0}
+.sc .nt{font-size:13px;line-height:1.35;font-weight:600;word-break:break-word;overflow:hidden;display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical}
+.sc .row2{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600}.sc .row2 .avatar{width:24px;height:24px;font-size:11px}
+.sc.ring{box-shadow:0 0 0 2px #1877f2}
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:50;display:grid;place-items:center;padding:16px}
+#mbox{background:var(--sf);border-radius:16px;padding:16px;width:100%;max-width:360px}
+.chips{display:flex;gap:8px;margin:10px 0}.chips button{width:30px;height:30px;border-radius:50%;border:2px solid transparent}.chips button.on{border-color:var(--tx)}
 </style>
 </head>
 <body>
@@ -92,7 +104,7 @@ nav button{position:relative;padding:7px 0;border-radius:10px;font-size:11px;col
       <div class="hello"><h2 id="greet"></h2><p>What's on your mind today?</p></div>
       <form class="composer" id="post-form">
         <div class="row"><div id="c-av"></div><div class="meta"><strong id="c-name"></strong><span>Write in Bangla or English</span></div></div>
-        <textarea id="post-text" maxlength="1500" placeholder="Share your feelings..."></textarea>
+        <textarea id="post-text" maxlength="1500" placeholder="What's on your mind?"></textarea>
         <div class="prev" id="prev"><img id="prev-img" alt=""><button type="button" id="rm-img">✕</button></div>
         <div class="row between" style="margin-top:6px">
           <button type="button" class="btn b2" id="pick-img">🖼️ Photo</button>
@@ -100,6 +112,7 @@ nav button{position:relative;padding:7px 0;border-radius:10px;font-size:11px;col
           <button class="btn b1" type="submit">Post</button>
         </div>
       </form>
+      <div class="strip" id="notes"></div>
       <div id="feed"></div>
     </section>
 
@@ -150,16 +163,15 @@ nav button{position:relative;padding:7px 0;border-radius:10px;font-size:11px;col
       <div id="sres"></div>
     </section>
 
-    <section class="page" id="page-admin"><div class="hello"><h2>Admin panel</h2><p id="adm-stats"></p></div><div id="adm-users"></div></section>
   </main>
   <nav>
     <button class="active" data-tab="home"><span class="i">🏠</span>Home</button>
     <button data-tab="cap"><span class="i">📖</span>Captions</button>
     <button data-tab="msg"><span class="i">💬</span>Messages<span class="badge hidden" id="nb"></span></button>
     <button data-tab="me"><span class="i">👤</span>Profile</button>
-    <button id="nav-admin" class="hidden" data-tab="admin"><span class="i">🛡️</span>Admin</button>
   </nav>
 </div>
+<div id="modal" class="hidden"><div id="mbox"></div></div>
 <div id="toast" role="status"></div>
 
 <script>
@@ -400,7 +412,7 @@ function compress(file,max=800,q=.7){return new Promise((ok,no)=>{const r=new Fi
 const chatId=(a,b)=>[a,b].sort().join('_');
 const d2=d=>d.data({serverTimestamps:'estimate'});
 
-let uid=null,me=null,posts=[],loaded=false,following=new Set(),followedBy=new Set(),allChats=[],pres={},presUn={},openCm=new Set(),cmData={},cmUn={},unsubs=[],selImg='',selAv='',dirty=false,isAdmin=false,adminUsers=[],admUn=null,hb=null,ucache={};
+let uid=null,me=null,posts=[],loaded=false,following=new Set(),followedBy=new Set(),allChats=[],pres={},presUn={},openCm=new Set(),cmData={},cmUn={},unsubs=[],selImg='',selAv='',dirty=false,hb=null,ucache={};
 let curTab='home',prevTab='home',viewUid=null,vdata=null,vposts=[],vfers=[],vfing=[],pfUn=[],listMode=null,editing=false;
 let activeChat=null,activeOther=null,roomUn=null,roomMsgs=[],guard=new Set(),lastType=0;
 
@@ -427,19 +439,18 @@ function start(u){
       await setDoc(doc(db,'users',uid),{name,nameLower:name.toLowerCase(),handle:h,bio:'',avatar:u.photoURL||'',showActive:true,lastActive:Date.now(),createdAt:serverTimestamp()});return;
     }
     me=s.data();if(!me.nameLower)updateDoc(doc(db,'users',uid),{nameLower:(me.name||'').toLowerCase()});
-    renderMe();renderPosts();if(curTab==='me'&&viewUid===uid)renderProfile()
+    renderMe();renderPosts();renderNotes();if(curTab==='me'&&viewUid===uid)renderProfile()
   }));
-  unsubs.push(onSnapshot(query(collection(db,'posts'),orderBy('createdAt','desc'),limit(50)),s=>{posts=s.docs.map(d=>({id:d.id,...d2(d)}));loaded=true;renderPosts()},e=>toast('Feed error: '+e.code)));
-  unsubs.push(onSnapshot(query(collection(db,'follows'),where('follower','==',uid)),s=>{following=new Set(s.docs.map(d=>d.data().followee));renderPosts();renderProfile()}));
+  unsubs.push(onSnapshot(query(collection(db,'posts'),orderBy('createdAt','desc'),limit(50)),s=>{posts=s.docs.map(d=>({id:d.id,...d2(d)})).filter(p=>!p.hidden||p.uid===uid);loaded=true;renderPosts()},e=>toast('Feed error: '+e.code)));
+  unsubs.push(onSnapshot(query(collection(db,'follows'),where('follower','==',uid)),s=>{following=new Set(s.docs.map(d=>d.data().followee));renderPosts();renderProfile();renderNotes()}));
   unsubs.push(onSnapshot(query(collection(db,'follows'),where('followee','==',uid)),s=>{followedBy=new Set(s.docs.map(d=>d.data().follower));renderPosts();renderProfile()}));
-  unsubs.push(onSnapshot(doc(db,'admins',uid),s=>{isAdmin=s.exists();$('#nav-admin').classList.toggle('hidden',!isAdmin);renderPosts();
-    if(isAdmin&&!admUn){admUn=onSnapshot(collection(db,'users'),q=>{adminUsers=q.docs.map(d=>({id:d.id,...d.data()}));renderAdmin()});unsubs.push(()=>{admUn?.();admUn=null})}},()=>{}));
   unsubs.push(onSnapshot(query(collection(db,'chats'),where('members','array-contains',uid)),s=>{
     allChats=s.docs.map(d=>({id:d.id,...d2(d)})).sort((a,b)=>ms(b.updatedAt)-ms(a.updatedAt));
     allChats.forEach(c=>{const o=c.members.find(m=>m!==uid);watchUser(o);
       const k='d'+c.id+ms(c.updatedAt);
       if(c.lastSender&&c.lastSender!==uid&&ms(c.deliveredAt?.[uid])<ms(c.updatedAt)&&!guard.has(k)){guard.add(k);updateDoc(doc(db,'chats',c.id),{['deliveredAt.'+uid]:serverTimestamp()}).catch(()=>{})}});
     markSeen();renderChats();if(activeChat)renderRoom();updateBadge()}));
+  unsubs.push(onSnapshot(query(collection(db,'notes'),where('createdAt','>',Date.now()-864e5)),s=>{notes={};s.docs.forEach(d=>notes[d.id]=d.data());renderNotes()},()=>{}));
   beat();hb=setInterval(beat,180000);
 }
 function beat(){if(!uid||!me||me.showActive===false||document.hidden)return;updateDoc(doc(db,'users',uid),{lastActive:Date.now()}).catch(()=>{})}
@@ -451,7 +462,7 @@ async function getUser(id){if(ucache[id])return ucache[id];const s=await getDoc(
 function showTab(t){curTab=t;
   document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.tab===t));
   document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+t));
-  if(t==='cap')showCats();if(t==='msg'&&!activeChat)closeRoom();if(t==='me')loadProfile();if(t==='admin')renderAdmin();window.scrollTo(0,0)}
+  if(t==='cap')showCats();if(t==='msg'&&!activeChat)closeRoom();if(t==='me')loadProfile();window.scrollTo(0,0)}
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{if(b.dataset.tab==='me'){viewUid=uid;listMode=null;editing=false}showTab(b.dataset.tab)});
 $('#open-search').onclick=()=>{showTab('search');$('#sq').focus()};
 function openProfile(id){if(!id)return;prevTab=curTab==='me'?prevTab:curTab;viewUid=id;listMode=null;editing=false;showTab('me')}
@@ -468,7 +479,7 @@ function postHTML(p){
   const liked=p.likedBy?.includes(uid),mineP=p.uid===uid,cms=cmData[p.id]||[];
   return `<article class="post" data-id="${esc(p.id)}">
     <div class="row">${av(p.author,p.avatar)}<div class="meta lk" data-a="prof"><strong>${esc(p.author)}</strong><span>@${esc(p.handle)} · ${ago(p.createdAt)}</span></div>
-    ${mineP?`<button class="b3" data-a="del">🗑️</button>`:`<button class="b3 ${following.has(p.uid)?'on':''}" data-a="follow">${flabel(p.uid)}</button><button class="b3" data-a="dm">💬</button>`}${!mineP&&isAdmin?'<button class="b3" data-a="del">🗑️</button>':''}</div>
+    ${mineP?`<button class="b3" data-a="del">🗑️</button>`:`<button class="b3 ${following.has(p.uid)?'on':''}" data-a="follow">${flabel(p.uid)}</button><button class="b3" data-a="dm">💬</button>`}</div>
     ${p.text?`<p class="ptext">${esc(p.text)}</p>`:''}${p.image?`<img class="pimg" src="${esc(p.image)}" loading="lazy" alt="">`:''}
     <div class="stats"><span>❤️ ${p.likedBy?.length||0} likes</span><span>💬 ${p.commentCount||0} comments</span></div>
     <div class="acts"><button class="act ${liked?'on':''}" data-a="like">${liked?'❤️':'🤍'} Like</button><button class="act" data-a="cm">💬 Comment</button><button class="act" data-a="share">↗️ Copy</button></div>
@@ -532,7 +543,7 @@ function loadProfile(){
   pfUn.forEach(f=>f());pfUn=[];if(!viewUid)viewUid=uid;const vu=viewUid;vdata=vu===uid?me:null;vposts=[];vfers=[];vfing=[];
   $('#pf-back').classList.toggle('hidden',vu===uid);
   if(vu!==uid)pfUn.push(onSnapshot(doc(db,'users',vu),s=>{vdata=s.exists()?s.data():{name:'User',handle:'user'};renderProfile()}));
-  pfUn.push(onSnapshot(query(collection(db,'posts'),where('uid','==',vu),limit(100)),s=>{vposts=s.docs.map(d=>({id:d.id,...d2(d)})).sort((a,b)=>ms(b.createdAt)-ms(a.createdAt));renderProfile()}));
+  pfUn.push(onSnapshot(query(collection(db,'posts'),where('uid','==',vu),limit(100)),s=>{vposts=s.docs.map(d=>({id:d.id,...d2(d)})).filter(p=>!p.hidden||p.uid===uid).sort((a,b)=>ms(b.createdAt)-ms(a.createdAt));renderProfile()}));
   pfUn.push(onSnapshot(query(collection(db,'follows'),where('followee','==',vu)),s=>{vfers=s.docs.map(d=>d.data().follower);renderProfile()}));
   pfUn.push(onSnapshot(query(collection(db,'follows'),where('follower','==',vu)),s=>{vfing=s.docs.map(d=>d.data().followee);renderProfile()}));
   renderProfile()}
@@ -627,11 +638,30 @@ $('#chat-form').onsubmit=e=>{e.preventDefault();const t=$('#chat-in').value.trim
   updateDoc(doc(db,'chats',activeChat),{lastMsg:t,lastSender:uid,updatedAt:serverTimestamp(),['unread.'+activeOther]:increment(1),['typing.'+uid]:0}).catch(()=>{})};
 $('#chat-in').oninput=()=>{if(!activeChat||Date.now()-lastType<2500)return;lastType=Date.now();updateDoc(doc(db,'chats',activeChat),{['typing.'+uid]:Date.now()}).catch(()=>{})};
 
-// ---------- admin ----------
-$('#adm-users').onclick=async e=>{const b=e.target.closest('[data-ban]');if(!b)return;try{await updateDoc(doc(db,'users',b.dataset.ban),{banned:b.dataset.b!=='1'})}catch(err){toast('Failed: '+(err.code||''))}};
-function renderAdmin(){
-  $('#adm-stats').textContent=adminUsers.length+' users · '+posts.length+' recent posts · delete posts with 🗑️ in the feed';
-  $('#adm-users').innerHTML=adminUsers.map(u=>`<div class="card" style="cursor:default">${av(u.name,u.avatar)}<div class="meta"><strong>${esc(u.name)}</strong><span>@${esc(u.handle)}${u.banned?' · 🚫 banned':''}</span></div>${u.id===uid?'':`<button class="b3" data-ban="${esc(u.id)}" data-b="${u.banned?1:0}">${u.banned?'Unban':'Ban'}</button>`}</div>`).join('')}
+// ---------- notes (24h text stories) ----------
+let notes={},noteColor='#fde68a';
+const COLORS=['#fde68a','#fbcfe8','#bfdbfe','#bbf7d0','#e9d5ff'];
+const liveNote=id=>notes[id]&&Date.now()-notes[id].createdAt<864e5?notes[id]:null;
+async function renderNotes(){
+  if(!me)return;
+  const ids=Object.keys(notes).filter(id=>id!==uid&&following.has(id)&&liveNote(id)).sort((a,b)=>notes[b].createdAt-notes[a].createdAt);
+  await Promise.all(ids.map(getUser));const mine=liveNote(uid);
+  $('#notes').innerHTML=`<div class="sc ${mine?'ring':''}" data-n="${esc(uid)}"><div class="ph">${me.avatar?`<img src="${esc(me.avatar)}" referrerpolicy="no-referrer" alt="">`:`<b style="font-size:36px">${esc((me.name||'?').charAt(0).toUpperCase())}</b>`}</div><i class="plus">+</i><div class="lb">${mine?'Your note':'Create note'}</div></div>`
+   +ids.map(id=>{const n=notes[id],u=ucache[id]||{};return `<div class="sc note" data-n="${esc(id)}" style="background:${esc(n.color||COLORS[0])}"><div class="nt">${esc(n.text)}</div><div class="row2">${av(u.name,u.avatar)}<span>${esc((u.name||'').split(' ')[0])}</span></div></div>`}).join('')}
+$('#notes').onclick=e=>{const c=e.target.closest('[data-n]');if(!c)return;const id=c.dataset.n;
+  if(id===uid){const m=liveNote(uid);noteColor=m?.color||COLORS[0];
+    $('#mbox').innerHTML=`<b>Your note</b><p style="font-size:12px;color:var(--mu);margin:2px 0 8px">Visible to your followers for 24 hours</p><textarea id="n-text" maxlength="120" placeholder="Share a thought..." style="min-height:90px">${esc(m?.text||'')}</textarea><div class="chips">${COLORS.map(x=>`<button data-c="${x}" class="${x===noteColor?'on':''}" style="background:${x}"></button>`).join('')}</div><div class="row between"><button class="btn b2" data-m="x">Cancel</button><div class="row">${m?'<button class="btn b2" data-m="del">Delete</button>':''}<button class="btn b1" data-m="share">Share</button></div></div>`}
+  else{const n=liveNote(id);if(!n)return;const u=ucache[id]||{};
+    $('#mbox').innerHTML=`<div class="row" style="margin-bottom:10px">${av(u.name,u.avatar)}<div class="meta"><strong>${esc(u.name)}</strong><span>${ago(n.createdAt)}</span></div></div><div style="background:${esc(n.color)};color:#18181b;border-radius:14px;padding:22px 16px;font-size:18px;font-weight:600;line-height:1.5;word-break:break-word">${esc(n.text)}</div><div class="row between" style="margin-top:12px"><button class="btn b2" data-m="x">Close</button><button class="btn b1" data-m="prof" data-id="${esc(id)}">View profile</button></div>`}
+  $('#modal').classList.remove('hidden')};
+$('#modal').onclick=e=>{
+  if(e.target.id==='modal'){$('#modal').classList.add('hidden');return}
+  const c=e.target.closest('[data-c]');if(c){noteColor=c.dataset.c;document.querySelectorAll('.chips button').forEach(b=>b.classList.toggle('on',b===c));return}
+  const b=e.target.closest('[data-m]');if(!b)return;const m=b.dataset.m;
+  if(m==='share'){const t=$('#n-text').value.trim();if(!t)return toast('Write something first');if(me.banned)return toast('Your account is restricted');
+    setDoc(doc(db,'notes',uid),{uid,text:t.slice(0,120),color:noteColor,createdAt:Date.now()}).catch(err=>toast('Failed: '+(err.code||'')));toast('Note shared ✓')}
+  if(m==='del')deleteDoc(doc(db,'notes',uid)).catch(()=>{});
+  $('#modal').classList.add('hidden');if(m==='prof')openProfile(b.dataset.id)};
 
 // ---------- connection label ----------
 const net=()=>{const n=$('#net');n.textContent=navigator.onLine?'Online':'Offline';n.classList.toggle('off',!navigator.onLine)};
