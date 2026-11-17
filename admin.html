@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Feelo Admin</title>
+<style>
+html,body{touch-action:manipulation;overscroll-behavior:none;-webkit-text-size-adjust:100%}*{-webkit-tap-highlight-color:transparent}
+:root{--bg:#f4f4f5;--sf:#fff;--tx:#18181b;--mu:#71717a;--ln:#e4e4e7;--pr:#18181b;--rd:#e11d48}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,sans-serif}
+button,input{font:inherit}button{cursor:pointer;border:0;background:none;color:inherit}.hidden{display:none!important}
+input{width:100%;border:1px solid var(--ln);border-radius:10px;padding:11px 13px;background:var(--sf);outline:0}
+.btn{border-radius:10px;padding:9px 14px;font-size:13px;font-weight:600;background:var(--pr);color:#fff}.btn.o{background:var(--sf);color:var(--tx);border:1px solid var(--ln)}.btn.r{background:var(--rd)}
+.s{font-size:12px;padding:6px 10px;border-radius:8px}
+#login{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:24px;max-width:340px;margin:auto}
+#app{max-width:760px;margin:auto;padding-bottom:40px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:calc(12px + env(safe-area-inset-top)) 16px 10px}
+.tabs{display:flex;gap:6px;padding:0 16px 10px;overflow-x:auto;position:sticky;top:0;background:var(--bg)}
+.tb{padding:8px 14px;border-radius:99px;background:var(--sf);border:1px solid var(--ln);font-size:13px;font-weight:600;white-space:nowrap}.tb.on{background:var(--pr);color:#fff}
+#body{padding:4px 16px}
+.g{display:grid;grid-template-columns:1fr 1fr;gap:10px}.st{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:18px;text-align:center}.st b{display:block;font-size:28px}.st span{color:var(--mu);font-size:13px}
+.card{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:12px;margin-top:10px}
+.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.grow{flex:1;min-width:0}
+.card small{color:var(--mu);display:block;font-size:12px}.card p{margin:8px 0;white-space:pre-wrap;word-break:break-word;font-size:14px}
+.card img{max-width:100%;max-height:160px;border-radius:8px;display:block;margin:6px 0}
+.tag{font-size:11px;padding:2px 8px;border-radius:99px;background:#fee2e2;color:#991b1b}
+.cm{border-top:1px solid var(--ln);margin-top:8px;padding-top:8px;font-size:13px}.empty{text-align:center;color:var(--mu);padding:30px}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--tx);color:#fff;padding:9px 16px;border-radius:99px;font-size:12px;opacity:0;transition:.2s;pointer-events:none}#toast.on{opacity:1}
+</style>
+</head>
+<body>
+<section id="login" class="hidden">
+  <h2 style="margin:0">Feelo Admin</h2>
+  <input id="em" placeholder="Admin ID (e.g. admin)" autocapitalize="off" autocomplete="username">
+  <input id="pw" type="password" placeholder="Password">
+  <button class="btn" id="bin" style="width:100%;padding:12px">Sign in</button>
+  <div id="err" style="color:var(--rd);font-size:12px;word-break:break-all;text-align:center"></div>
+</section>
+<div id="app" class="hidden">
+  <div class="top"><b style="font-size:18px">🛡️ Feelo Admin</b><button class="btn o s" id="out">Sign out</button></div>
+  <div class="tabs"><button class="tb on" data-t="dash">Dashboard</button><button class="tb" data-t="users">Users</button><button class="tb" data-t="posts">Posts</button><button class="tb" data-t="notes">Notes</button></div>
+  <div id="body"></div>
+</div>
+<div id="toast"></div>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
+import {getAuth,signInWithEmailAndPassword,onAuthStateChanged,signOut} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-auth.js";
+import {getFirestore,collection,doc,getDoc,getDocs,updateDoc,deleteDoc,query,orderBy,limit,where,writeBatch,increment,getCountFromServer} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-firestore.js";
+const app=initializeApp({apiKey:"AIzaSyAvGaCRzMQVnRDboY2EmfTfLJ4ZbQoxj8E",authDomain:"feelo-f44f0.firebaseapp.com",projectId:"feelo-f44f0",storageBucket:"feelo-f44f0.firebasestorage.app",messagingSenderId:"1020445550500",appId:"1:1020445550500:web:ab10f8c82b3d5621234331"});
+const auth=getAuth(app),db=getFirestore(app);
+const $=s=>document.querySelector(s);
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ms=t=>t?.toMillis?t.toMillis():(t||0);
+const ago=t=>{const m=Math.max(0,Math.floor((Date.now()-ms(t))/6e4));return !t?'':m<1?'just now':m<60?m+'m ago':m<1440?Math.floor(m/60)+'h ago':new Date(ms(t)).toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'})};
+let tt;const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2200)};
+const err=m=>$('#err').textContent=m;
+const EM={'auth/invalid-credential':'Wrong ID or password','auth/invalid-email':'Invalid ID','auth/network-request-failed':'No internet','auth/unauthorized-domain':'Domain not authorized in Firebase'};
+const show=id=>{$('#login').classList.toggle('hidden',id!=='login');$('#app').classList.toggle('hidden',id!=='app')};
+let users=[],posts=[],tab='dash';
+
+const toMail=v=>v.includes('@')?v:v.toLowerCase().replace(/\s+/g,'')+'@feelo.local';
+const showUid=u=>{$('#err').innerHTML='This ID is not an admin yet.<br>Your UID:<br><b style="user-select:all;color:var(--tx)">'+esc(u)+'</b><br><button class="btn o s" id="cu" style="margin-top:8px">Copy UID</button><br>Add it as a document ID in Firestore → admins.';$('#cu').onclick=()=>navigator.clipboard.writeText(u).then(()=>toast('Copied'))};
+$('#bin').onclick=async()=>{err('');const v=$('#em').value.trim();if(!v)return err('Enter your admin ID');try{await signInWithEmailAndPassword(auth,toMail(v),$('#pw').value)}catch(e){err(EM[e.code]||e.code)}};
+$('#out').onclick=()=>signOut(auth);
+onAuthStateChanged(auth,async u=>{
+  if(!u){show('login');return}
+  try{const a=await getDoc(doc(db,'admins',u.uid));
+    if(!a.exists()){await signOut(auth);showUid(u.uid);return}
+  }catch(e){await signOut(auth);err('Access check failed: '+(e.code||e.message));return}
+  show('app');go('dash')});
+
+document.querySelectorAll('.tb').forEach(b=>b.onclick=()=>go(b.dataset.t));
+async function go(t){tab=t;document.querySelectorAll('.tb').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+  $('#body').innerHTML='<div class="empty">Loading…</div>';
+  try{await({dash,users:uTab,posts:pTab,notes:nTab})[t]()}catch(e){$('#body').innerHTML='<div class="empty">Error: '+esc(e.code||e.message)+'</div>'}}
+const cnt=async q=>(await getCountFromServer(q)).data().count;
+async function dash(){
+  const [u,p,n,b]=await Promise.all([cnt(collection(db,'users')),cnt(collection(db,'posts')),cnt(collection(db,'notes')),cnt(query(collection(db,'users'),where('banned','==',true)))]);
+  $('#body').innerHTML='<div class="g">'+[['Users',u],['Posts',p],['Active notes / total',n],['Banned users',b]].map(([k,v])=>`<div class="st"><b>${v}</b><span>${k}</span></div>`).join('')+'</div>'}
+async function loadUsers(){const s=await getDocs(query(collection(db,'users'),limit(300)));users=s.docs.map(d=>({id:d.id,...d.data()}))}
+async function uTab(){await loadUsers();$('#body').innerHTML='<input id="uq" placeholder="Search name or @username"><div id="ul"></div>';$('#uq').oninput=drawUsers;drawUsers()}
+function drawUsers(){
+  const q=$('#uq').value.toLowerCase().replace(/^@/,'');
+  const l=users.filter(u=>!q||(u.name||'').toLowerCase().includes(q)||(u.handle||'').includes(q));
+  $('#ul').innerHTML=l.length?l.map(u=>`<div class="card"><div class="row"><div class="grow"><b>${esc(u.name)}</b> ${u.banned?'<span class="tag">banned</span>':''}<small>@${esc(u.handle)} · ${esc(u.id)}</small></div></div>
+  <div class="row" style="margin-top:8px"><button class="btn s ${u.banned?'o':'r'}" data-ban="${esc(u.id)}" data-b="${u.banned?1:0}">${u.banned?'Unban':'Ban user'}</button><button class="btn o s" data-dp="${esc(u.id)}">Delete all posts</button><button class="btn o s" data-dn="${esc(u.id)}">Delete note</button></div></div>`).join(''):'<div class="empty">No users</div>'}
+async function pTab(){
+  const s=await getDocs(query(collection(db,'posts'),orderBy('createdAt','desc'),limit(100)));posts=s.docs.map(d=>({id:d.id,...d.data()}));
+  $('#body').innerHTML=posts.length?posts.map(p=>`<div class="card" id="p-${esc(p.id)}"><div class="row"><div class="grow"><b>${esc(p.author)}</b> ${p.hidden?'<span class="tag">hidden</span>':''}<small>@${esc(p.handle)} · ${ago(p.createdAt)} · ❤️ ${p.likedBy?.length||0} · 💬 ${p.commentCount||0}</small></div></div>
+  ${p.text?`<p>${esc(p.text)}</p>`:''}${p.image?`<img src="${esc(p.image)}" alt="">`:''}
+  <div class="row"><button class="btn o s" data-hide="${esc(p.id)}" data-h="${p.hidden?1:0}">${p.hidden?'Unhide':'Hide post'}</button><button class="btn r s" data-del="${esc(p.id)}">Delete</button><button class="btn o s" data-cm="${esc(p.id)}">Comments</button><button class="btn o s" data-ban="${esc(p.uid)}" data-b="0">Ban author</button></div><div id="c-${esc(p.id)}"></div></div>`).join(''):'<div class="empty">No posts</div>'}
+async function nTab(){
+  if(!users.length)await loadUsers();const nm={};users.forEach(u=>nm[u.id]=u);
+  const s=await getDocs(query(collection(db,'notes'),limit(200)));const l=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>b.createdAt-a.createdAt);
+  $('#body').innerHTML=l.length?l.map(n=>`<div class="card" id="n-${esc(n.id)}"><b>${esc(nm[n.id]?.name||n.id)}</b><small>${ago(n.createdAt)}${Date.now()-n.createdAt>864e5?' · expired':''}</small><p>${esc(n.text)}</p><button class="btn r s" data-dn="${esc(n.id)}">Delete note</button></div>`).join(''):'<div class="empty">No notes</div>'}
+
+$('#body').onclick=async e=>{
+  const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+  try{
+    if(d.ban){const nb=d.b!=='1';if(!confirm((nb?'Ban':'Unban')+' this user?'))return;await updateDoc(doc(db,'users',d.ban),{banned:nb});const u=users.find(x=>x.id===d.ban);if(u)u.banned=nb;toast(nb?'User banned':'User unbanned');if(tab==='users')drawUsers()}
+    else if(d.dp){if(!confirm('Delete ALL posts of this user?'))return;const s=await getDocs(query(collection(db,'posts'),where('uid','==',d.dp),limit(400)));const w=writeBatch(db);s.docs.forEach(x=>w.delete(x.ref));await w.commit();toast(s.size+' posts deleted')}
+    else if(d.dn){await deleteDoc(doc(db,'notes',d.dn));toast('Note deleted');$('#n-'+d.dn)?.remove()}
+    else if(d.hide){const h=d.h!=='1';await updateDoc(doc(db,'posts',d.hide),{hidden:h});toast(h?'Post hidden':'Post visible');pTab()}
+    else if(d.del){if(!confirm('Delete this post permanently?'))return;await deleteDoc(doc(db,'posts',d.del));$('#p-'+d.del)?.remove();toast('Post deleted')}
+    else if(d.cm){const box=$('#c-'+d.cm);if(box.innerHTML){box.innerHTML='';return}
+      const s=await getDocs(query(collection(db,'posts',d.cm,'comments'),orderBy('createdAt')));
+      box.innerHTML=s.docs.length?s.docs.map(x=>`<div class="cm row" id="m-${x.id}"><div class="grow"><b>${esc(x.data().author)}</b> ${esc(x.data().text)}</div><button class="btn r s" data-dc="${esc(x.id)}" data-p="${esc(d.cm)}">Delete</button></div>`).join(''):'<div class="cm">No comments</div>'}
+    else if(d.dc){await deleteDoc(doc(db,'posts',d.p,'comments',d.dc));await updateDoc(doc(db,'posts',d.p),{commentCount:increment(-1)});$('#m-'+d.dc)?.remove();toast('Comment deleted')}
+  }catch(er){toast('Failed: '+(er.code||er.message))}};
+</script>
+</body>
+</html>
