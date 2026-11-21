@@ -81,6 +81,7 @@ nav button{position:relative;padding:7px 0;border-radius:10px;font-size:11px;col
 #modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:50;display:grid;place-items:center;padding:16px}
 #mbox{background:var(--sf);border-radius:16px;padding:16px;width:100%;max-width:360px}
 .chips{display:flex;gap:8px;margin:10px 0}.chips button{width:30px;height:30px;border-radius:50%;border:2px solid transparent}.chips button.on{border-color:var(--tx)}
+.nt-i{display:flex;gap:10px;align-items:center;padding:12px;border-radius:12px;background:var(--sf);border:1px solid var(--ln);margin-top:8px;cursor:pointer}.nt-i.un{background:#eef2ff;border-color:#c7d2fe}.nt-i .meta span{white-space:normal}
 </style>
 </head>
 <body>
@@ -102,7 +103,7 @@ nav button{position:relative;padding:7px 0;border-radius:10px;font-size:11px;col
 </section>
 
 <div class="shell hidden" id="app">
-  <header class="top"><div class="row"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2ZiNzE4NSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzdjM2FlZCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgo8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExNiIgZmlsbD0idXJsKCNnKSIvPgo8ZyBmaWxsPSIjZmZmIj4KPHJlY3QgeD0iMTAwIiB5PSIxMzAiIHdpZHRoPSI0OCIgaGVpZ2h0PSIyNTIiIHJ4PSIyNCIvPgo8cmVjdCB4PSIxMDAiIHk9IjEzMCIgd2lkdGg9IjEyNCIgaGVpZ2h0PSI0OCIgcng9IjI0Ii8+CjxyZWN0IHg9IjEwMCIgeT0iMjI2IiB3aWR0aD0iOTIiIGhlaWdodD0iNDQiIHJ4PSIyMiIvPgo8cmVjdCB4PSIyODgiIHk9IjEzMCIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjI1MiIgcng9IjI0Ii8+CjxyZWN0IHg9IjI4OCIgeT0iMzM0IiB3aWR0aD0iMTI4IiBoZWlnaHQ9IjQ4IiByeD0iMjQiLz4KPHBhdGggZD0iTTM3MiAyOTJDMzMyIDI2NCAzMzggMjI2IDM2MCAyMjZDMzY4IDIyNiAzNzIgMjMyIDM3MiAyMzZDMzcyIDIzMiAzNzYgMjI2IDM4NCAyMjZDNDA2IDIyNiA0MTIgMjY0IDM3MiAyOTJaIiBmaWxsLW9wYWNpdHk9Ii45MiIvPgo8L2c+PC9zdmc+Cg==" width="28" height="28" alt="" style="border-radius:8px"><b>Feelo</b></div><div class="row"><span class="pill" id="net">Online</span><button class="b3" id="open-search" style="font-size:15px">🔍</button></div></header>
+  <header class="top"><div class="row"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI2ZiNzE4NSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzdjM2FlZCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgo8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExNiIgZmlsbD0idXJsKCNnKSIvPgo8ZyBmaWxsPSIjZmZmIj4KPHJlY3QgeD0iMTAwIiB5PSIxMzAiIHdpZHRoPSI0OCIgaGVpZ2h0PSIyNTIiIHJ4PSIyNCIvPgo8cmVjdCB4PSIxMDAiIHk9IjEzMCIgd2lkdGg9IjEyNCIgaGVpZ2h0PSI0OCIgcng9IjI0Ii8+CjxyZWN0IHg9IjEwMCIgeT0iMjI2IiB3aWR0aD0iOTIiIGhlaWdodD0iNDQiIHJ4PSIyMiIvPgo8cmVjdCB4PSIyODgiIHk9IjEzMCIgd2lkdGg9IjQ4IiBoZWlnaHQ9IjI1MiIgcng9IjI0Ii8+CjxyZWN0IHg9IjI4OCIgeT0iMzM0IiB3aWR0aD0iMTI4IiBoZWlnaHQ9IjQ4IiByeD0iMjQiLz4KPHBhdGggZD0iTTM3MiAyOTJDMzMyIDI2NCAzMzggMjI2IDM2MCAyMjZDMzY4IDIyNiAzNzIgMjMyIDM3MiAyMzZDMzcyIDIzMiAzNzYgMjI2IDM4NCAyMjZDNDA2IDIyNiA0MTIgMjY0IDM3MiAyOTJaIiBmaWxsLW9wYWNpdHk9Ii45MiIvPgo8L2c+PC9zdmc+Cg==" width="28" height="28" alt="" style="border-radius:8px"><b>Feelo</b></div><div class="row"><span class="pill" id="net">Online</span><button class="b3" id="open-notif" style="font-size:15px;position:relative">🔔<span class="badge hidden" id="nbell" style="position:absolute;top:-8px;right:-8px"></span></button><button class="b3" id="open-search" style="font-size:15px">🔍</button></div></header>
   <main>
     <section class="page active" id="page-home">
       <div class="hello"><h2 id="greet"></h2><p>What's on your mind today?</p></div>
@@ -159,6 +160,11 @@ nav button{position:relative;padding:7px 0;border-radius:10px;font-size:11px;col
       </form>
       <div id="pf-tools" class="hidden"><button class="btn b2" id="logout" style="width:100%;margin:6px 0">Log out</button><p style="font-size:11px;color:var(--mu);text-align:center">UID: <span id="p-uid" style="user-select:all"></span></p></div>
       <div id="pbody"></div>
+    </section>
+
+    <section class="page" id="page-notif">
+      <div class="hello row between"><div><h2>Notifications</h2><p>Likes, comments and new followers</p></div><button class="b3" id="mark-read">Mark all read</button></div>
+      <div id="nlist"></div>
     </section>
 
     <section class="page" id="page-search">
@@ -249,6 +255,7 @@ function start(u){
       if(c.lastSender&&c.lastSender!==uid&&ms(c.deliveredAt?.[uid])<ms(c.updatedAt)&&!guard.has(k)){guard.add(k);updateDoc(doc(db,'chats',c.id),{['deliveredAt.'+uid]:serverTimestamp()}).catch(()=>{})}});
     markSeen();renderChats();if(activeChat)renderRoom();updateBadge()}));
   unsubs.push(onSnapshot(query(collection(db,'notes'),where('createdAt','>',Date.now()-864e5)),s=>{notes={};s.docs.forEach(d=>notes[d.id]=d.data());renderNotes()},()=>{}));
+  unsubs.push(onSnapshot(query(collection(db,'notifs'),where('to','==',uid),limit(60)),s=>{notifs=s.docs.map(d=>({id:d.id,...d2(d)})).sort((a,b)=>ms(b.createdAt)-ms(a.createdAt));updateBell();if(curTab==='notif')renderNotifs()},()=>{}));
   beat();hb=setInterval(beat,180000);
 }
 function beat(){if(!uid||!me||me.showActive===false||document.hidden)return;updateDoc(doc(db,'users',uid),{lastActive:Date.now()}).catch(()=>{})}
@@ -260,7 +267,7 @@ async function getUser(id){if(ucache[id])return ucache[id];const s=await getDoc(
 function showTab(t){curTab=t;
   document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.tab===t));
   document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+t));
-  if(t==='cap')showCats();if(t==='msg'&&!activeChat)closeRoom();if(t==='me')loadProfile();window.scrollTo(0,0)}
+  if(t==='cap')showCats();if(t==='msg'&&!activeChat)closeRoom();if(t==='me')loadProfile();if(t==='notif')openNotifs();window.scrollTo(0,0)}
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{if(b.dataset.tab==='me'){viewUid=uid;listMode=null;editing=false}showTab(b.dataset.tab)});
 $('#open-search').onclick=()=>{showTab('search');$('#sq').focus()};
 function openProfile(id){if(!id)return;prevTab=curTab==='me'?prevTab:curTab;viewUid=id;listMode=null;editing=false;showTab('me')}
@@ -288,13 +295,13 @@ function renderPosts(){
   $('#feed').innerHTML=!loaded?'<div class="empty">Loading…</div>':posts.length?posts.map(postHTML).join(''):'<div class="empty"><b>No posts yet</b><br>Be the first to share.</div>';
   if(curTab==='me')renderPBody()}
 document.addEventListener('focusout',()=>{if(dirty)setTimeout(renderPosts,150)});
-async function toggleFollow(id){const r=doc(db,'follows',uid+'_'+id);following.has(id)?await deleteDoc(r):await setDoc(r,{follower:uid,followee:id})}
+async function toggleFollow(id){const r=doc(db,'follows',uid+'_'+id);if(following.has(id))await deleteDoc(r);else{await setDoc(r,{follower:uid,followee:id});notify(id,'follow',{nid:'follow_'+uid+'_'+id})}}
 async function postClick(e){
   const b=e.target.closest('[data-a]');if(!b)return;const id=b.closest('[data-id]').dataset.id,p=posts.find(x=>x.id===id)||vposts.find(x=>x.id===id);if(!p)return;
   try{
     const a=b.dataset.a;
     if(a==='prof')openProfile(p.uid);
-    else if(a==='like')updateDoc(doc(db,'posts',id),{likedBy:p.likedBy?.includes(uid)?arrayRemove(uid):arrayUnion(uid)});
+    else if(a==='like'){const was=p.likedBy?.includes(uid);updateDoc(doc(db,'posts',id),{likedBy:was?arrayRemove(uid):arrayUnion(uid)});if(!was)notify(p.uid,'like',{postId:id,nid:'like_'+id+'_'+uid})}
     else if(a==='del'){if(confirm('Delete this post?'))deleteDoc(doc(db,'posts',id))}
     else if(a==='follow')await toggleFollow(p.uid);
     else if(a==='dm')openChat(p.uid);
@@ -307,7 +314,7 @@ async function postClick(e){
 function cmSubmit(e){
   const f=e.target.closest('.cform');if(!f)return;e.preventDefault();const t=f.c.value.trim();if(!t)return;
   if(me.banned)return toast('Your account is restricted from commenting');f.c.value='';
-  addDoc(collection(db,'posts',f.dataset.pid,'comments'),{uid,author:me.name,text:t,createdAt:serverTimestamp()}).then(()=>updateDoc(doc(db,'posts',f.dataset.pid),{commentCount:increment(1)})).catch(err=>toast('Comment failed: '+(err.code||'')))}
+  addDoc(collection(db,'posts',f.dataset.pid,'comments'),{uid,author:me.name,text:t,createdAt:serverTimestamp()}).then(()=>{const pp=posts.find(x=>x.id===f.dataset.pid)||vposts.find(x=>x.id===f.dataset.pid);if(pp)notify(pp.uid,'comment',{postId:pp.id,snippet:t.slice(0,60)});return updateDoc(doc(db,'posts',f.dataset.pid),{commentCount:increment(1)})}).catch(err=>toast('Comment failed: '+(err.code||'')))}
 ['#feed','#pbody'].forEach(s=>{$(s).addEventListener('click',postClick);$(s).addEventListener('submit',cmSubmit)});
 
 $('#pick-img').onclick=()=>$('#img-in').click();
@@ -460,6 +467,43 @@ $('#modal').onclick=e=>{
     setDoc(doc(db,'notes',uid),{uid,text:t.slice(0,120),color:noteColor,createdAt:Date.now()}).catch(err=>toast('Failed: '+(err.code||'')));toast('Note shared ✓')}
   if(m==='del')deleteDoc(doc(db,'notes',uid)).catch(()=>{});
   $('#modal').classList.add('hidden');if(m==='prof')openProfile(b.dataset.id)};
+
+// ---------- in-app notifications ----------
+let notifs=[];
+function updateBell(){const n=notifs.filter(x=>!x.read).length,b=$('#nbell');b.textContent=n>99?'99+':n;b.classList.toggle('hidden',!n)}
+function notify(to,type,extra={}){
+  if(!to||to===uid||!me)return;
+  const data={to,from:uid,fromName:me.name||'Someone',type,read:false,createdAt:serverTimestamp(),...extra};const id=data.nid;delete data.nid;
+  (id?setDoc(doc(db,'notifs',id),data):addDoc(collection(db,'notifs'),data)).catch(()=>{})}
+const ntext=n=>n.type==='like'?'liked your post':n.type==='comment'?'commented on your post'+(n.snippet?': “'+n.snippet+'”':''):'started following you';
+async function renderNotifs(){
+  const box=$('#nlist');
+  if(!notifs.length){box.innerHTML='<div class="empty">No notifications yet</div>';return}
+  await Promise.all([...new Set(notifs.map(n=>n.from))].map(getUser));
+  box.innerHTML=notifs.map(n=>{const u=ucache[n.from]||{};return `<div class="nt-i ${n.read?'':'un'}" data-nid="${esc(n.id)}" data-from="${esc(n.from)}" data-t="${esc(n.type)}">${av(u.name||n.fromName,u.avatar)}<div class="meta"><strong style="font-size:14px">${esc(u.name||n.fromName)}</strong><span>${esc(ntext(n))} · ${ago(n.createdAt)}</span></div></div>`}).join('')}
+function markAllRead(){const un=notifs.filter(n=>!n.read);if(!un.length)return;const b=writeBatch(db);un.forEach(n=>b.update(doc(db,'notifs',n.id),{read:true}));b.commit().catch(()=>{})}
+async function openNotifs(){await renderNotifs();setTimeout(()=>{if(curTab==='notif')markAllRead()},1500)}
+$('#open-notif').onclick=()=>showTab('notif');
+$('#mark-read').onclick=markAllRead;
+$('#nlist').onclick=e=>{const c=e.target.closest('[data-nid]');if(!c)return;
+  updateDoc(doc(db,'notifs',c.dataset.nid),{read:true}).catch(()=>{});
+  if(c.dataset.t==='follow')openProfile(c.dataset.from);else showTab('home')};
+
+// ---------- phone back button ----------
+let lastBack=0;
+function backInApp(){
+  if(!$('#modal').classList.contains('hidden')){$('#modal').classList.add('hidden');return true}
+  if(curTab==='me'&&(listMode||viewUid!==uid)){if(listMode){listMode=null;renderPBody()}else{viewUid=uid;showTab(prevTab&&prevTab!=='me'?prevTab:'home')}return true}
+  if(curTab==='msg'&&activeChat){closeRoom();return true}
+  if(curTab==='cap'&&!$('#cat-det').classList.contains('hidden')){showCats();return true}
+  if(curTab!=='home'){showTab('home');return true}
+  return false}
+history.replaceState({b:1},'');history.pushState({f:1},'');
+window.addEventListener('popstate',()=>{
+  if(!uid){history.back();return}
+  if(backInApp()){history.pushState({f:1},'');return}
+  if(Date.now()-lastBack<2000){history.back();return}
+  lastBack=Date.now();toast('Press back again to exit');history.pushState({f:1},'')});
 
 // ---------- connection label ----------
 const net=()=>{const n=$('#net');n.textContent=navigator.onLine?'Online':'Offline';n.classList.toggle('off',!navigator.onLine)};

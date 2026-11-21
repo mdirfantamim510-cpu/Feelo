@@ -1,24 +1,2 @@
-{
-  "name": "Feelo",
-  "short_name": "Feelo",
-  "description": "Share what you feel with friends",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#fafafa",
-  "theme_color": "#fafafa",
-  "orientation": "portrait",
-  "icons": [
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ]
-}
+{"name":"Feelo","short_name":"Feelo","description":"Share what you feel with friends","start_url":"./index.html","scope":"./","display":"standalone","orientation":"portrait","background_color":"#fafafa","theme_color":"#fafafa",
+"icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},{"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"any"},{"src":"icon-maskable-512.png","sizes":"512x512","type":"image/png","purpose":"maskable"}]}
